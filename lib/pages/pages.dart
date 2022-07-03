@@ -1,0 +1,10 @@
+// 请按文件名排序放置
+export './home/home.dart';
+export './image_viewer/image_viewer.dart';
+export './language_chooser/language_chooser.dart';
+export './ocr_engine_chooser/ocr_engine_chooser.dart';
+export './setting_app_language/setting_app_language.dart';
+export './setting_extract_text/setting_extract_text.dart';
+export './setting_interface/setting_interface.dart';
+export './setting_shortcuts/setting_shortcuts.dart';
+export './settings/settings.dart';
