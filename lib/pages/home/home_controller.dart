@@ -41,9 +41,21 @@ class HomeController extends GetxController {
             ],
             child: CheckboxListTile(
               controlAffinity: ListTileControlAffinity.leading,
-              title: Text(element.name),
-              value: true,
-              onChanged: (bool? value) {},
+              title: Text(element.name,style:element.isCompleted == 1? TextStyle(color: Colors.grey):TextStyle(color: Colors.black)),
+              value: element.isCompleted == 1?true:false,
+              checkColor: Colors.green,
+              selected: element.isCompleted == 1?true:false,
+              onChanged: (bool? value) {
+                if(value!){
+                  element.isCompleted = 1;
+                }else{
+                  element.isCompleted = 0;
+                }
+                var _db = DBProvider.db;
+                _db.updateTodo(element).then((value) => {
+                  _db.getAllTodo().then((value1) => {buildTodoItems(value1)})
+                });
+              },
             )),
       );
       widgets.add(card);

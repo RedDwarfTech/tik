@@ -9,12 +9,12 @@ class Todo {
   final String id, parent;
   final String name;
   @JsonKey(name: 'completed')
-  final int isCompleted;
+  int isCompleted;
 
   Todo(this.name, {required this.parent, this.isCompleted = 0, String? id})
       : this.id = id ?? Uuid().generateV4();
 
-  Todo copy({String? name, int? isCompleted, String? id, String? parent}) {
+  Todo copy(Map map, {String? name, int? isCompleted, String? id, String? parent}) {
     return Todo(
       name ?? this.name,
       isCompleted: isCompleted ?? this.isCompleted,

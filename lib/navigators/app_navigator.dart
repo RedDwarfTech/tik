@@ -36,10 +36,6 @@ class _AppNavigatorState extends State<AppNavigator> with WidgetsBindingObserver
     super.dispose();
   }
 
-  void _configListen() {
-    setState(() {});
-  }
-
   void didChangePlatformBrightness() {
     setState(() {});
   }

@@ -30,3 +30,4 @@ macos/.DS_Store
 .DS_Store
 ios/.DS_Store
 analysis_options.yaml
+.idea/tik.iml
