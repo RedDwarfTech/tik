@@ -127,11 +127,6 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
                     Scaffold.of(context).showSnackBar(snackBar);
                   } else {
                     final HomeController c = Get.put(HomeController());
-                    TodoListModel todoListModel = new TodoListModel();
-                    todoListModel.addTodo(Todo(
-                      newTask,
-                      parent: "a",
-                    ));
                     c.addTodo(Todo(
                       newTask,
                       parent: "a",

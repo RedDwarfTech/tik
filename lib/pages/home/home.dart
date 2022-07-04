@@ -18,13 +18,13 @@ class HomePage extends StatelessWidget {
   final HomeController c = Get.put(HomeController());
   GlobalKey _inputViewKey = GlobalKey();
 
-  Widget _buildInputView(BuildContext context) {
+  Widget _buildTodoView(BuildContext context) {
     return Container(
       key: _inputViewKey,
       width: double.infinity,
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        children: c.buildTodoItems(),
+        children: c.widgetsList.obs,
       ),
     );
   }
@@ -35,7 +35,7 @@ class HomePage extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.max,
         children: [
-          _buildInputView(context),
+          _buildTodoView(context),
         ],
       ),
     );
