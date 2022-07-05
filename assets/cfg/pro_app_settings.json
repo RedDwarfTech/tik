@@ -1,6 +1,7 @@
 {
-  "baseUrl": "https://dict.poemhub.top",
-  "authUrl": "https://api.poemhub.top",
-  "appId": 5,
-  "logUrl": "https://api.poemhub.top"
+  "baseUrl": "https://tik.poemhub.top",
+  "authUrl": "https://tik.poemhub.top",
+  "appId": "n4eaGxdJgn",
+  "logUrl": "https://api.poemhub.top",
+  "loginUrlPath": "/tik/user/login"
 }

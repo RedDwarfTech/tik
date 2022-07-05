@@ -1,9 +1,13 @@
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:wheel/wheel.dart';
 import '../../../includes.dart';
+import '../user/login/login.dart';
+import '../user/profile/profile.dart';
 
 class SettingsPage extends StatefulWidget {
   final VoidCallback? onDismiss;
@@ -15,11 +19,6 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  String _inputSetting = kInputSettingSubmitWithEnter;
-
-  String t(String key, {List<String>? args}) {
-    return 'page_settings.$key'.tr(args: args);
-  }
 
   @override
   void initState() {
@@ -35,15 +34,47 @@ class _SettingsPageState extends State<SettingsPage> {
 
   Widget _build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFEFEFEF),
       appBar: CustomAppBar(
-        title: Text(t('title')),
+        title: Text('title'),
         leading: widget.onDismiss != null
             ? CustomAppBarCloseButton(
                 onPressed: widget.onDismiss!,
               )
             : null,
       ),
-      body:null,
+      body:SafeArea(
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(0, 55, 0, 0),
+          child: ListView(
+            children: [
+              Padding(
+                  padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Container(
+                          color: Colors.white,
+                          child: ListTile(
+                            leading: Icon(EvaIcons.person),
+                            trailing: Icon(Icons.keyboard_arrow_right),
+                            title: Text("我的"),
+                            onTap: () async {
+                              bool isLoggedIn = await Auth.isLoggedIn();
+                              if (isLoggedIn) {
+                                var user = await Auth.currentUser();
+                                Get.to(Profile(user: user,));
+                              } else {
+                                List<RegionFlag> regions = await CommonUtils.getRegions();
+                                final inputController = TextEditingController();
+                                Get.to(Login(regions: regions,inputController: inputController,));
+                              }
+                            },
+                          )))),
+            ],
+          ),
+        ),
+
+      ),
     );
   }
 

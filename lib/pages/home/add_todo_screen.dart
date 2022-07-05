@@ -1,3 +1,4 @@
+import 'package:Tik/networking/rest_api/todo/todo_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -32,8 +33,19 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
     newTask = '';
   }
 
+
+
   @override
   Widget build(BuildContext context) {
+    final HomeController c = Get.put(HomeController());
+
+    void handleLocal(bool success, Todo todo){
+      if(success){
+        c.addTodo(todo);
+        Navigator.pop(context);
+      }
+    }
+
     return Scaffold(
           key: _scaffoldKey,
           backgroundColor: Colors.white,
@@ -126,12 +138,10 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
                     );
                     Scaffold.of(context).showSnackBar(snackBar);
                   } else {
-                    final HomeController c = Get.put(HomeController());
-                    c.addTodo(Todo(
-                      newTask,
-                      parent: "a",
-                    ));
-                    Navigator.pop(context);
+                    var todo = Todo(newTask, parent: "a",);
+                    TodoProvider.saveTodo(todo).then((value) => {
+                      handleLocal(value,todo)
+                    });
                   }
                 },
               );
