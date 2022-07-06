@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
+import 'package:wheel/wheel.dart';
 import 'dart:io';
 
 import '../models/todo/task_model.dart';
 import '../models/todo/todo_model.dart';
+import '../networking/rest_api/todo/todo_provider.dart';
 
 class DBProvider {
   static Database? _database;
@@ -104,9 +106,15 @@ class DBProvider {
   }
 
   Future<List<Todo>> getAllTodo() async {
-    final db = await database;
-    var result = await db.query('Todo');
-    return result.map((it) => Todo.fromJson(it)).toList();
+    bool isLoggedIn = await Auth.isLoggedIn();
+    if (isLoggedIn) {
+     List<Todo> todos = await TodoProvider.getTodos();
+     return todos;
+    }else{
+      final db = await database;
+      var result = await db.query('Todo');
+      return result.map((it) => Todo.fromJson(it)).toList();
+    }
   }
 
   Future<int> updateTodo(Todo todo) async {

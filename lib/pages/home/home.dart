@@ -16,30 +16,24 @@ class HomePage extends StatelessWidget {
   final ScrollController scrollController = ScrollController();
   GlobalKey _inputViewKey = GlobalKey();
 
-  Widget _buildTodoView(BuildContext context) {
-    return Container(
-      key: _inputViewKey,
-      width: double.infinity,
-      child: ListView(
-        controller: scrollController,
-        scrollDirection: Axis.vertical,
-        shrinkWrap: true,
-        padding: const EdgeInsets.all(8),
-        children: c.widgetsList.obs,
-      ),
-    );
+  Widget _buildTodoView(BuildContext context,HomeController controller) {
+
+
+
+    return ListView.builder(
+          scrollDirection: Axis.vertical,
+          itemCount: controller.widgetsList.obs.length,
+          itemExtent: 50.0,
+          itemBuilder: (BuildContext context, int index) {
+            Widget widget = controller.widgetsList.obs[index];
+            return widget;
+          },
+          //children: c.widgetsList.obs,
+        );
   }
 
-  Widget _buildBody(BuildContext context) {
-    return Container(
-      height: double.infinity,
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          _buildTodoView(context),
-        ],
-      ),
-    );
+  Widget _buildBody(BuildContext context,HomeController controller) {
+    return _buildTodoView(context,controller);
   }
 
   PreferredSizeWidget _buildAppBar(BuildContext context) {
@@ -79,11 +73,10 @@ class HomePage extends StatelessWidget {
     return GetBuilder<HomeController>(
         init: HomeController(),
         builder: (controller) {
-
           return SafeArea(
               child: Scaffold(
             appBar: _buildAppBar(context),
-            body: _buildBody(context),
+            body: _buildBody(context,controller),
             floatingActionButton: FloatingActionButton(
               onPressed: _incrementCounter,
               tooltip: 'Increment',
