@@ -19,7 +19,12 @@ class TodoProvider {
       var todos = response.data["result"];
       List<Todo> todoList = List.empty(growable: true);
       todos.forEach((element) {
-        Todo todo = new Todo(element["name"], id: element["id"], parent: "111");
+        Todo todo = new Todo(
+            element["name"],
+            id: element["id"],
+            parent: "111",
+            isCompleted: element["is_complete"]
+        );
         todoList.add(todo);
       });
       return todoList;
@@ -32,6 +37,18 @@ class TodoProvider {
     Map<String,Object> params =  new HashMap();
     params.putIfAbsent("id", () => todo.id);
     var response = await RestClient.delete("/tik/todo/v1/del",params);
+    if (RestClient.respSuccess(response)) {
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  static Future<bool> updateTodo(Todo todo) async {
+    Map<String,Object> params =  new HashMap();
+    params.putIfAbsent("id", () => todo.id);
+    params.putIfAbsent("is_complete", () => todo.isCompleted);
+    var response = await RestClient.patch("/tik/todo/v1/update",params);
     if (RestClient.respSuccess(response)) {
       return true;
     }else{

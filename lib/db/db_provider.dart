@@ -109,6 +109,7 @@ class DBProvider {
     bool isLoggedIn = await Auth.isLoggedIn();
     if (isLoggedIn) {
      List<Todo> todos = await TodoProvider.getTodos();
+     todos.sort((a, b) => a.isCompleted.compareTo(b.isCompleted));
      return todos;
     }else{
       final db = await database;

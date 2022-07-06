@@ -56,9 +56,10 @@ class HomeController extends GetxController {
                 }else{
                   element.isCompleted = 0;
                 }
-                var _db = DBProvider.db;
-                _db.updateTodo(element).then((value) => {
-                  _db.getAllTodo().then((value1) => {buildTodoItems(value1)})
+                TodoProvider.updateTodo(element).then((value) => {
+                  TodoProvider.getTodos().then((todos) => {
+                    buildTodoItems(todos)
+                  })
                 });
               },
             )),
