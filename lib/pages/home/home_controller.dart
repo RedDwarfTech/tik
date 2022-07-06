@@ -1,3 +1,4 @@
+import 'package:Tik/networking/rest_api/todo/todo_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -36,8 +37,10 @@ class HomeController extends GetxController {
                 caption: '删除',
                 color: Colors.blue,
                 icon: Icons.archive,
-                onTap: () => {
-                  removeTodo(element)
+                onTap: () async => {
+                  if(await TodoProvider.removeTodo(element)){
+                    removeTodo(element)
+                  }
                 },
               ),
             ],
@@ -74,10 +77,15 @@ class HomeController extends GetxController {
         });
   }
 
+  void removeLocalTodo(Todo todo){
+    widgetsList.obs.remove(todo);
+  }
+
   void removeTodo(Todo todo) {
-    var _db = DBProvider.db;
-    _db.removeTodo(todo).then((value) => {
-      _db.getAllTodo().then((value1) => {buildTodoItems(value1)})
+    TodoProvider.removeTodo(todo).then((value) => {
+      TodoProvider.getTodos().then((todos) => {
+        buildTodoItems(todos)
+    })
     });
   }
 
@@ -87,4 +95,5 @@ class HomeController extends GetxController {
       _db.getAllTodo().then((value1) => {buildTodoItems(value1)})
     });
   }
+
 }

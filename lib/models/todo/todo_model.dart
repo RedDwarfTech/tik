@@ -6,19 +6,20 @@ part 'todo_model.g.dart';
 
 @JsonSerializable()
 class Todo {
-  final String id, parent;
+  final int id;
+  final String parent;
   final String name;
   @JsonKey(name: 'completed')
   int isCompleted;
 
-  Todo(this.name, {required this.parent, this.isCompleted = 0, String? id})
-      : this.id = id ?? Uuid().generateV4();
+  Todo(this.name, {required this.parent, this.isCompleted = 0, int? id})
+      : this.id = id ?? 0;
 
-  Todo copy(Map map, {String? name, int? isCompleted, String? id, String? parent}) {
+  Todo copy(Map map, {String? name, int? isCompleted, required int id, String? parent}) {
     return Todo(
       name ?? this.name,
       isCompleted: isCompleted ?? this.isCompleted,
-      id: id ?? this.id,
+      id: id,
       parent: parent ?? this.parent,
     );
   }

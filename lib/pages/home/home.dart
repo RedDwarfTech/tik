@@ -17,9 +17,6 @@ class HomePage extends StatelessWidget {
   GlobalKey _inputViewKey = GlobalKey();
 
   Widget _buildTodoView(BuildContext context,HomeController controller) {
-
-
-
     return ListView.builder(
           scrollDirection: Axis.vertical,
           itemCount: controller.widgetsList.obs.length,
@@ -28,7 +25,6 @@ class HomePage extends StatelessWidget {
             Widget widget = controller.widgetsList.obs[index];
             return widget;
           },
-          //children: c.widgetsList.obs,
         );
   }
 
