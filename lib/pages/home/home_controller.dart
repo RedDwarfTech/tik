@@ -25,7 +25,9 @@ class HomeController extends GetxController {
   List<Widget> buildTodoItems(List<Todo> newTodos) {
     List<Widget> widgets = new List.empty(growable: true);
     newTodos.forEach((element) {
-      var card = Card(
+      var card = Container(
+          height: 50,
+          child: Card(
         child: Slidable(
             actionPane: SlidableDrawerActionPane(),
             actionExtentRatio: 0.25,
@@ -57,7 +59,7 @@ class HomeController extends GetxController {
                 });
               },
             )),
-      );
+      ));
       widgets.add(card);
     });
     widgetsList = widgets;

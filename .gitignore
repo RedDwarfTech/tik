@@ -22,7 +22,6 @@ doc/api/
 *.iml
 .idea
 *.log
-.idea/tik.iml
 
 .flutter-plugins-dependencies
 .flutter-plugins

@@ -13,14 +13,18 @@ import 'home_controller.dart';
 
 class HomePage extends StatelessWidget {
   final HomeController c = Get.put(HomeController());
+  final ScrollController scrollController = ScrollController();
   GlobalKey _inputViewKey = GlobalKey();
 
   Widget _buildTodoView(BuildContext context) {
     return Container(
       key: _inputViewKey,
       width: double.infinity,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
+      child: ListView(
+        controller: scrollController,
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        padding: const EdgeInsets.all(8),
         children: c.widgetsList.obs,
       ),
     );
