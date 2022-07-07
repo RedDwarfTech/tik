@@ -100,10 +100,10 @@ class _TabControllerStuState extends State<Quadrant>
             return GridView.custom(
               semanticChildCount: 2,
               cacheExtent: 4,
-              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 200,
-                mainAxisSpacing: 10.0,
-                crossAxisSpacing: 10.0,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                mainAxisSpacing: 3.0,
+                crossAxisSpacing: 3.0,
+                crossAxisCount: 2,
                 childAspectRatio: childAspectRatio,
               ),
               childrenDelegate:
