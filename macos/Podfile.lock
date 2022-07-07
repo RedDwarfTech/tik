@@ -20,8 +20,6 @@ PODS:
     - FMDB (>= 2.7.5)
   - tray_manager (0.0.1):
     - FlutterMacOS
-  - url_launcher_macos (0.0.1):
-    - FlutterMacOS
 
 DEPENDENCIES:
   - audioplayers (from `Flutter/ephemeral/.symlinks/plugins/audioplayers/macos`)
@@ -33,7 +31,6 @@ DEPENDENCIES:
   - shared_preferences_macos (from `Flutter/ephemeral/.symlinks/plugins/shared_preferences_macos/macos`)
   - sqflite (from `Flutter/ephemeral/.symlinks/plugins/sqflite/macos`)
   - tray_manager (from `Flutter/ephemeral/.symlinks/plugins/tray_manager/macos`)
-  - url_launcher_macos (from `Flutter/ephemeral/.symlinks/plugins/url_launcher_macos/macos`)
 
 SPEC REPOS:
   trunk:
@@ -58,8 +55,6 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral/.symlinks/plugins/sqflite/macos
   tray_manager:
     :path: Flutter/ephemeral/.symlinks/plugins/tray_manager/macos
-  url_launcher_macos:
-    :path: Flutter/ephemeral/.symlinks/plugins/url_launcher_macos/macos
 
 SPEC CHECKSUMS:
   audioplayers: 8b48e22684b6e0d9df143b2d1bbd61dca9dab6b4
@@ -72,7 +67,6 @@ SPEC CHECKSUMS:
   shared_preferences_macos: a64dc611287ed6cbe28fd1297898db1336975727
   sqflite: a5789cceda41d54d23f31d6de539d65bb14100ea
   tray_manager: 9064e219c56d75c476e46b9a21182087930baf90
-  url_launcher_macos: 597e05b8e514239626bcf4a850fcf9ef5c856ec3
 
 PODFILE CHECKSUM: 6eac6b3292e5142cfc23bdeb71848a40ec51c14c
 

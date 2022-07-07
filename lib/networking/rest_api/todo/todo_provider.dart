@@ -27,6 +27,7 @@ class TodoProvider {
         );
         todoList.add(todo);
       });
+      todoList.sort((a, b) => a.isCompleted.compareTo(b.isCompleted));
       return todoList;
     }else{
       return new List.empty();
