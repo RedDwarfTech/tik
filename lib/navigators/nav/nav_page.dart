@@ -41,6 +41,34 @@ class Nav extends StatelessWidget {
                 }
 
                return Scaffold(
+                 appBar: AppBar(title: Text("title")),
+                 drawer: Drawer(
+                   child: ListView(
+                     children: [
+                       ListTile(
+                         title: const Text('清单1'),
+                         onTap: () {
+                           // Update the state of the app.
+                           // ...
+                         },
+                       ),
+                       ListTile(
+                         title: const Text('清单2'),
+                         onTap: () {
+                           // Update the state of the app.
+                           // ...
+                         },
+                       ),
+                       ElevatedButton.icon(
+                           onPressed: () {},
+                           icon: Icon( // <-- Icon
+                             Icons.add,
+                             size: 24.0,
+                           ),
+                           label: Text('添加清单'))
+                     ],
+                   ),
+                 ),
                   body: controller.getCurrentWidget,
                   bottomNavigationBar: BottomNavigationBar(
                       items: const [
