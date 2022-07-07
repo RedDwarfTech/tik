@@ -5,7 +5,7 @@ import 'package:get/get_state_manager/src/simple/get_state.dart';
 
 import '../../pages/dev/dev_word.dart';
 import '../../pages/home/home.dart';
-import '../../pages/learn/new_word.dart';
+import '../../pages/learn/todo_calendar.dart';
 import '../../pages/settings/settings.dart';
 import 'nav_controller.dart';
 
@@ -24,7 +24,7 @@ class Nav extends StatelessWidget {
                     controller.updateSelectIndex(0);
                   }
                   if (index == 1) {
-                    Widget widget = NewWord();
+                    Widget widget = TodoCalandar();
                     controller.updateCurrentWidget(widget);
                     controller.updateSelectIndex(1);
                   }
