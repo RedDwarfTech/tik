@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import '../../component/todo_badge.dart';
 import '../../models/hero_id_model.dart';
-import '../../models/scopedmodel/todo_list_model.dart';
 import '../../models/todo/todo_model.dart';
 import 'home_controller.dart';
 
@@ -33,16 +32,16 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
     newTask = '';
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     final HomeController c = Get.put(HomeController());
 
     void handleLocal(bool success, Todo todo){
       if(success){
-        c.addTodo(todo);
-        Navigator.pop(context);
+        TodoProvider.getTodos().then((value) => {
+          c.buildTodoItems(value),
+          Navigator.pop(context)
+        });
       }
     }
 
@@ -51,7 +50,7 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
           backgroundColor: Colors.white,
           appBar: AppBar(
             title: Text(
-              'New Task',
+              '新任务',
               style: TextStyle(color: Colors.black),
             ),
             centerTitle: true,
@@ -67,7 +66,7 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'What task are you planning to perfrom?',
+                  '想要完成什么事项呢？',
                   style: TextStyle(
                       color: Colors.black38,
                       fontWeight: FontWeight.w600,
@@ -84,7 +83,7 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
                   autofocus: true,
                   decoration: InputDecoration(
                       border: InputBorder.none,
-                      hintText: 'Your Task...',
+                      hintText: '输入任务内容',
                       hintStyle: TextStyle(
                         color: Colors.black26,
                       )),

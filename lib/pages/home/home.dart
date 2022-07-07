@@ -52,7 +52,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Future<void> _incrementCounter() async {
+  Future<void> addTask() async {
     HeroId heroId = new HeroId(
         progressId: '121',
         titleId: '232',
@@ -74,7 +74,7 @@ class HomePage extends StatelessWidget {
             appBar: _buildAppBar(context),
             body: _buildBody(context,controller),
             floatingActionButton: FloatingActionButton(
-              onPressed: _incrementCounter,
+              onPressed: addTask,
               tooltip: 'Increment',
               child: const Icon(Icons.add),
             ),

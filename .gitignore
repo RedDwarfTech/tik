@@ -22,6 +22,7 @@ doc/api/
 *.iml
 .idea
 *.log
+*.dmg
 
 .flutter-plugins-dependencies
 .flutter-plugins
