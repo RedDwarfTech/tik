@@ -10,7 +10,7 @@ Task _$TaskFromJson(Map<String, dynamic> json) {
   return Task(json['name'] as String,
       color: json['color'] as int,
       codePoint: json['code_point'] as int,
-      id: json['id'] as String);
+      id: json['id']);
 }
 
 Map<String, dynamic> _$TaskToJson(Task instance) => <String, dynamic>{

@@ -137,7 +137,7 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
                     );
                     Scaffold.of(context).showSnackBar(snackBar);
                   } else {
-                    var todo = Todo(newTask, parent: "a",);
+                    var todo = Todo(newTask, parent: 0,);
                     TodoProvider.saveTodo(todo).then((value) => {
                       handleLocal(value,todo)
                     });

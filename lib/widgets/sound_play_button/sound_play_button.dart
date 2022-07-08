@@ -141,9 +141,9 @@ class _SoundPlayButtonState extends State<SoundPlayButton>
     } else {
       _playing = false;
     }
-    if (_playing && !(_playingAnimTimer?.isActive ?? false)) {
+    if (_playing && !(_playingAnimTimer.isActive )) {
       _startPlayingAnimTimer();
-    } else if (!_playing && (_playingAnimTimer?.isActive ?? false)) {
+    } else if (!_playing && (_playingAnimTimer.isActive)) {
       _stopPlayingAnimTimer();
     }
     if (mounted) setState(() {});

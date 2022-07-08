@@ -67,5 +67,5 @@ Future<bool> showConfirmDialog(BuildContext context, Widget content,
           ],
         );
       });
-  return result ?? false;
+  return result;
 }

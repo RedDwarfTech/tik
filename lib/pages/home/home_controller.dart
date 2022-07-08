@@ -1,24 +1,21 @@
 import 'package:Tik/networking/rest_api/todo/todo_provider.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
 import '../../db/db_provider.dart';
 import '../../models/todo/todo_model.dart';
+import 'edit_task_screen.dart';
 
 class HomeController extends GetxController {
-  var count = 0.obs;
-
-  increment() => count++;
-
   List<Widget> widgetsList = List.empty(growable: true);
+  List<Todo> tasks = List.empty(growable: true);
 
   @override
   void onInit() {
     var _db = DBProvider.db;
-    _db.getAllTodo().then((value) => {addTodos(value)});
+    _db.getAllTodo().then((value) => {tasks.addAll(value),addTodos(value)});
     super.onInit();
   }
 
@@ -39,28 +36,40 @@ class HomeController extends GetxController {
                 color: Colors.blue,
                 icon: Icons.archive,
                 onTap: () async => {
-                  if(await TodoProvider.removeTodo(element)){
-                    removeTodo(element)
-                  }
+                  if (await TodoProvider.removeTodo(element))
+                    {removeTodo(element)}
                 },
               ),
             ],
             child: ListTile(
-                //visualDensity: VisualDensity(vertical: 3), // to expand
-                leading: Checkbox(value: element.isCompleted == 1?true:false, onChanged: (bool? value) {
-                if(value!){
-                  element.isCompleted = 1;
-                }else{
-                  element.isCompleted = 0;
-                }
-                TodoProvider.updateTodo(element).then((value) => {
-                  TodoProvider.getTodos().then((todos) => {
-                    buildTodoItems(todos)
-                  })
-                });
-              },),
-              title: Text(element.name,style:element.isCompleted == 1? TextStyle(color: Colors.grey):TextStyle(color: Colors.black),overflow: TextOverflow.ellipsis),
-              selected: element.isCompleted == 1?true:false
+              leading: Checkbox(
+                value: element.isCompleted == 1 ? true : false,
+                onChanged: (bool? value) {
+                  if (value!) {
+                    element.isCompleted = 1;
+                  } else {
+                    element.isCompleted = 0;
+                  }
+                  TodoProvider.updateTodo(element).then((value) => {
+                        TodoProvider.getTodos()
+                            .then((todos) => {buildTodoItems(todos)})
+                      });
+                },
+              ),
+              title: Text(element.name,
+                  style: element.isCompleted == 1
+                      ? TextStyle(color: Colors.grey)
+                      : TextStyle(color: Colors.black),
+                  overflow: TextOverflow.ellipsis),
+              selected: element.isCompleted == 1 ? true : false,
+              onTap: () {
+                Get.to(EditTaskScreen(
+                  taskId: element.id,
+                  color: Colors.green,
+                  icon: EvaIcons.edit,
+                  taskName: element.name,
+                ));
+              },
             )),
       );
       widgets.add(card);
@@ -70,6 +79,15 @@ class HomeController extends GetxController {
     return widgets;
   }
 
+  void updateTask(Todo todo) {
+    tasks.forEach((element) {
+      if (element.id == todo.id) {
+        element.name = todo.name;
+        buildTodoItems(tasks);
+      }
+    });
+  }
+
   void addTodo(Todo todo) {
     var _db = DBProvider.db;
     _db.insertTodo(todo).then((value) => {
@@ -77,23 +95,20 @@ class HomeController extends GetxController {
         });
   }
 
-  void removeLocalTodo(Todo todo){
+  void removeLocalTodo(Todo todo) {
     widgetsList.obs.remove(todo);
   }
 
   void removeTodo(Todo todo) {
     TodoProvider.removeTodo(todo).then((value) => {
-      TodoProvider.getTodos().then((todos) => {
-        buildTodoItems(todos)
-    })
-    });
+          TodoProvider.getTodos().then((todos) => {buildTodoItems(todos)})
+        });
   }
 
   void addTodos(List<Todo> todos) {
     var _db = DBProvider.db;
     _db.insertBulkTodo(todos).then((value) => {
-      _db.getAllTodo().then((value1) => {buildTodoItems(value1)})
-    });
+          _db.getAllTodo().then((value1) => {buildTodoItems(value1)})
+        });
   }
-
 }

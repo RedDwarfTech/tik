@@ -10,8 +10,8 @@ class TodoListModel extends Model {
   var _db = DBProvider.db;
   List<Todo> get todos => _todos.toList();
   List<Task> get tasks => _tasks.toList();
-  int getTaskCompletionPercent(Task task) =>
-      _taskCompletionPercentage[task.id] ?? 0;
+  Object getTaskCompletionPercent(Task task) =>
+      _taskCompletionPercentage[task.id] ?? BigInt.from(0);
   int getTotalTodosFrom(Task task) =>
       todos.where((it) => it.parent == task.id).length;
   bool get isLoading => _isLoading;
@@ -19,7 +19,7 @@ class TodoListModel extends Model {
   bool _isLoading = false;
   List<Task> _tasks = [];
   List<Todo> _todos = [];
-  Map<String, int> _taskCompletionPercentage = Map();
+  Map<int, Object> _taskCompletionPercentage = Map();
 
   static TodoListModel of(BuildContext context) =>
       ScopedModel.of<TodoListModel>(context);
@@ -36,8 +36,8 @@ class TodoListModel extends Model {
   void loadTodos() async {
     var isNew = !await DBProvider.db.dbExists();
     if (isNew) {
-      await _db.insertBulkTask(_db.tasks);
-      await _db.insertBulkTodo(_db.todos);
+      //await _db.insertBulkTask(_db.tasks);
+      //await _db.insertBulkTodo(_db.todos);
     }
     _tasks = await _db.getAllTask();
     _todos = await _db.getAllTodo();
@@ -107,16 +107,16 @@ class TodoListModel extends Model {
     // _syncTodoToDB();
   }
 
-  void _calcTaskCompletionPercent(String taskId) {
+  void _calcTaskCompletionPercent(int taskId) {
     var todos = this.todos.where((it) => it.parent == taskId);
     var totalTodos = todos.length;
 
     if (totalTodos == 0) {
-      _taskCompletionPercentage[taskId] = 0;
+      _taskCompletionPercentage[taskId] = BigInt.from(0);
     } else {
       var totalCompletedTodos = todos.where((it) => it.isCompleted == 1).length;
       _taskCompletionPercentage[taskId] =
-          (totalCompletedTodos / totalTodos * 100).toInt();
+      (totalCompletedTodos / totalTodos * 100).toInt() as BigInt;
     }
     // return todos.fold(0, (total, todo) => todo.isCompleted ? total + scoreOfTask : total);
   }

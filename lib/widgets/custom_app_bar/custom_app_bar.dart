@@ -69,10 +69,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     final ScaffoldState scaffold = Scaffold.of(context);
     final ModalRoute<Object?>? parentRoute = ModalRoute.of(context);
 
-    final bool hasDrawer = scaffold?.hasDrawer ?? false;
-    final bool canPop = parentRoute?.canPop ?? false;
-    final bool useCloseButton =
-        parentRoute is PageRoute<dynamic> && parentRoute.fullscreenDialog;
+    final bool hasDrawer = scaffold.hasDrawer;
 
     Widget? leading = this.leading;
     if (leading == null && this.automaticallyImplyLeading!) {

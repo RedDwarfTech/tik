@@ -14,7 +14,7 @@ Future<void> initEnv(String type) async {
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
 
   Env.instance.appBuildNumber = int.parse(
-      (packageInfo?.buildNumber ?? '').isEmpty
+      (packageInfo.buildNumber).isEmpty
           ? kAppBuildNumber
           : packageInfo.buildNumber);
   Env.instance.appVersion = packageInfo.version;
