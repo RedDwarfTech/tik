@@ -17,18 +17,19 @@ class HomeController extends GetxController {
 
   @override
   void onInit() {
-    // TODO: implement onInit
     var _db = DBProvider.db;
     _db.getAllTodo().then((value) => {addTodos(value)});
     super.onInit();
   }
 
+  /**
+   * why using List + Checkbox?
+   * https://stackoverflow.com/questions/72905465/is-it-possible-to-know-trigger-checkbox-or-item-text-when-using-checkboxlisttile
+   */
   List<Widget> buildTodoItems(List<Todo> newTodos) {
     List<Widget> widgets = new List.empty(growable: true);
     newTodos.forEach((element) {
-      var card = SizedBox(
-          height: 50,
-          child: Card(
+      var card = Card(
         child: Slidable(
             actionPane: SlidableDrawerActionPane(),
             actionExtentRatio: 0.25,
@@ -44,13 +45,9 @@ class HomeController extends GetxController {
                 },
               ),
             ],
-            child: CheckboxListTile(
-              controlAffinity: ListTileControlAffinity.leading,
-              title: Text(element.name,style:element.isCompleted == 1? TextStyle(color: Colors.grey):TextStyle(color: Colors.black)),
-              value: element.isCompleted == 1?true:false,
-              checkColor: Colors.green,
-              selected: element.isCompleted == 1?true:false,
-              onChanged: (bool? value) {
+            child: ListTile(
+                visualDensity: VisualDensity(vertical: 3), // to expand
+                leading: Checkbox(value: element.isCompleted == 1?true:false, onChanged: (bool? value) {
                 if(value!){
                   element.isCompleted = 1;
                 }else{
@@ -61,9 +58,11 @@ class HomeController extends GetxController {
                     buildTodoItems(todos)
                   })
                 });
-              },
+              },),
+              title: Text(element.name,style:element.isCompleted == 1? TextStyle(color: Colors.grey):TextStyle(color: Colors.black)),
+              selected: element.isCompleted == 1?true:false
             )),
-      ));
+      );
       widgets.add(card);
     });
     widgetsList = widgets;
