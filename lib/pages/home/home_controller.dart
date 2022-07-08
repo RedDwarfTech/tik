@@ -46,7 +46,7 @@ class HomeController extends GetxController {
               ),
             ],
             child: ListTile(
-                visualDensity: VisualDensity(vertical: 3), // to expand
+                //visualDensity: VisualDensity(vertical: 3), // to expand
                 leading: Checkbox(value: element.isCompleted == 1?true:false, onChanged: (bool? value) {
                 if(value!){
                   element.isCompleted = 1;
@@ -59,7 +59,7 @@ class HomeController extends GetxController {
                   })
                 });
               },),
-              title: Text(element.name,style:element.isCompleted == 1? TextStyle(color: Colors.grey):TextStyle(color: Colors.black)),
+              title: Text(element.name,style:element.isCompleted == 1? TextStyle(color: Colors.grey):TextStyle(color: Colors.black),overflow: TextOverflow.ellipsis),
               selected: element.isCompleted == 1?true:false
             )),
       );
