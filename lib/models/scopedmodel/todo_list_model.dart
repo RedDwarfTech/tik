@@ -8,7 +8,7 @@ import '../todo/todo_model.dart';
 class TodoListModel extends Model {
   // ObjectDB db;
   var _db = DBProvider.db;
-  List<Todo> get todos => _todos.toList();
+  List<TodoTask> get todos => _todos.toList();
   List<Task> get tasks => _tasks.toList();
   Object getTaskCompletionPercent(Task task) =>
       _taskCompletionPercentage[task.id] ?? BigInt.from(0);
@@ -18,7 +18,7 @@ class TodoListModel extends Model {
 
   bool _isLoading = false;
   List<Task> _tasks = [];
-  List<Todo> _todos = [];
+  List<TodoTask> _todos = [];
   Map<int, Object> _taskCompletionPercentage = Map();
 
   static TodoListModel of(BuildContext context) =>
@@ -77,21 +77,21 @@ class TodoListModel extends Model {
     notifyListeners();
   }
 
-  void removeTodo(Todo todo) {
+  void removeTodo(TodoTask todo) {
     _todos.removeWhere((it) => it.id == todo.id);
     _syncJob(todo);
     _db.removeTodo(todo);
     notifyListeners();
   }
 
-  void addTodo(Todo todo) {
+  void addTodo(TodoTask todo) {
     _todos.add(todo);
     _syncJob(todo);
     _db.insertTodo(todo);
     notifyListeners();
   }
 
-  void updateTodo(Todo todo) {
+  void updateTodo(TodoTask todo) {
     var oldTodo = _todos.firstWhere((it) => it.id == todo.id);
     var replaceIndex = _todos.indexOf(oldTodo);
     _todos.replaceRange(replaceIndex, replaceIndex + 1, [todo]);
@@ -102,7 +102,7 @@ class TodoListModel extends Model {
     notifyListeners();
   }
 
-  _syncJob(Todo todo) {
+  _syncJob(TodoTask todo) {
     _calcTaskCompletionPercent(todo.parent);
     // _syncTodoToDB();
   }
@@ -116,9 +116,9 @@ class TodoListModel extends Model {
     } else {
       var totalCompletedTodos = todos.where((it) => it.isCompleted == 1).length;
       _taskCompletionPercentage[taskId] =
-      (totalCompletedTodos / totalTodos * 100).toInt() as BigInt;
+          (totalCompletedTodos / totalTodos * 100).toInt() as BigInt;
     }
-    // return todos.fold(0, (total, todo) => todo.isCompleted ? total + scoreOfTask : total);
+    // return todos.fold(0, (total, task) => task.isCompleted ? total + scoreOfTask : total);
   }
 
   // Future<int> _syncTodoToDB() async {

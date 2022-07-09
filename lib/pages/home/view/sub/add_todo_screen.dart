@@ -1,12 +1,11 @@
-import 'package:Tik/networking/rest_api/todo/todo_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
-import '../../component/todo_badge.dart';
-import '../../models/hero_id_model.dart';
-import '../../models/todo/todo_model.dart';
-import 'home_controller.dart';
+import '../../../../component/todo_badge.dart';
+import '../../../../models/hero_id_model.dart';
+import '../../../../models/todo/todo_model.dart';
+import '../../../../networking/rest/task/todo_provider.dart';
+import '../../controller/home_controller.dart';
 
 class AddTodoScreen extends StatefulWidget {
   final String taskId;
@@ -37,9 +36,9 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
   Widget build(BuildContext context) {
     final HomeController c = Get.put(HomeController());
 
-    void handleLocal(bool success, Todo todo) {
+    void handleLocal(bool success, TodoTask todo) {
       if (success) {
-        TodoProvider.getTodos()
+        TaskProvider.getTasks()
             .then((value) => {c.buildTodoItems(value), Navigator.pop(context)});
       }
     }
@@ -135,11 +134,11 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
                 );
                 Scaffold.of(context).showSnackBar(snackBar);
               } else {
-                var todo = Todo(
+                var todo = TodoTask(
                   newTask,
                   parent: 0,
                 );
-                TodoProvider.saveTodo(todo)
+                TaskProvider.saveTask(todo)
                     .then((value) => {handleLocal(value, todo)});
               }
             },

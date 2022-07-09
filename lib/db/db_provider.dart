@@ -7,7 +7,7 @@ import 'package:wheel/wheel.dart';
 
 import '../models/todo/task_model.dart';
 import '../models/todo/todo_model.dart';
-import '../networking/rest_api/todo/todo_provider.dart';
+import '../networking/rest/task/todo_provider.dart';
 
 class DBProvider {
   static Database? _database;
@@ -60,7 +60,7 @@ class DBProvider {
     });
   }
 
-  insertBulkTodo(List<Todo> todos) async {
+  insertBulkTodo(List<TodoTask> todos) async {
     final db = await database;
     todos.forEach((it) async {
       var res = await db.insert("Todo", it.toJson());
@@ -74,31 +74,31 @@ class DBProvider {
     return result.map((it) => Task.fromJson(it)).toList();
   }
 
-  Future<List<Todo>> getAllTodo() async {
+  Future<List<TodoTask>> getAllTodo() async {
     bool isLoggedIn = await Auth.isLoggedIn();
     if (isLoggedIn) {
-      List<Todo> todos = await TodoProvider.getTodos();
+      List<TodoTask> todos = await TaskProvider.getTasks();
       todos.sort((a, b) => a.isCompleted.compareTo(b.isCompleted));
       return todos;
     } else {
       final db = await database;
       var result = await db.query('Todo');
-      return result.map((it) => Todo.fromJson(it)).toList();
+      return result.map((it) => TodoTask.fromJson(it)).toList();
     }
   }
 
-  Future<int> updateTodo(Todo todo) async {
+  Future<int> updateTodo(TodoTask todo) async {
     final db = await database;
     return db
         .update('Todo', todo.toJson(), where: 'id = ?', whereArgs: [todo.id]);
   }
 
-  Future<int> removeTodo(Todo todo) async {
+  Future<int> removeTodo(TodoTask todo) async {
     final db = await database;
     return db.delete('Todo', where: 'id = ?', whereArgs: [todo.id]);
   }
 
-  Future<int> insertTodo(Todo todo) async {
+  Future<int> insertTodo(TodoTask todo) async {
     final db = await database;
     return db.insert('Todo', todo.toJson());
   }

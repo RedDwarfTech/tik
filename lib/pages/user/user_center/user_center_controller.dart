@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
-import '../../home/home.dart';
+import '../../home/view/home.dart';
 
 class UserCenterController extends GetxController {
   int _selectNavIndex = 0;

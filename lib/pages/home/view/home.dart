@@ -3,12 +3,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../models/hero_id_model.dart';
-import 'add_todo_screen.dart';
-import 'home_controller.dart';
+import '../../../models/hero_id_model.dart';
+import '../controller/home_controller.dart';
+import 'sub/add_todo_screen.dart';
 
 class HomePage extends StatelessWidget {
-  final HomeController c = Get.put(HomeController());
+  final HomeController homeController = Get.put(HomeController());
   final ScrollController scrollController = ScrollController();
 
   Widget _buildTodoView(BuildContext context, HomeController controller) {
@@ -19,7 +19,6 @@ class HomePage extends StatelessWidget {
           if (index == 0) {
             var expand = controller.newTaskExpanded.value;
             controller.newTaskExpanded(!expand);
-            controller.refresh();
           }
           if (index == 1) {
             var expand = controller.completedTaskExpanded.value;
@@ -76,7 +75,7 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _buildBody(BuildContext context, HomeController controller) {
-    return _buildTodoView(context, controller);
+    return Obx(() => _buildTodoView(context, controller));
   }
 
   Future<void> addTask() async {

@@ -6,13 +6,14 @@ import 'package:wheel/wheel.dart';
 
 import '../../../component/dialogs.dart';
 import '../../../component/page_dia_code_selection.dart';
-import '../../../networking/rest_api/login/login_provider.dart';
+import '../../../networking/rest/login/login_provider.dart';
 import '../../../themes/global_style.dart';
 import 'login_controller.dart';
 import 'login_password.dart';
 
 class Login extends StatelessWidget {
-  const Login({Key? key, required this.regions, this.inputController}) : super(key: key);
+  const Login({Key? key, required this.regions, this.inputController})
+      : super(key: key);
   final List<RegionFlag> regions;
   final inputController;
 
@@ -38,7 +39,9 @@ class Login extends StatelessWidget {
               context,
               LoginApi.checkPhoneExist(
                 text,
-                controller.getDefaultRegionFlag.dialCode!.replaceAll("+", "").replaceAll(" ", ""),
+                controller.getDefaultRegionFlag.dialCode!
+                    .replaceAll("+", "")
+                    .replaceAll(" ", ""),
               ),
             );
           }
@@ -62,12 +65,15 @@ class Login extends StatelessWidget {
                                   height: 45,
                                   width: screenWidth * 0.9,
                                   child: PhoneInput(
-                                    selectedRegion: controller.getDefaultRegionFlag,
+                                    selectedRegion:
+                                        controller.getDefaultRegionFlag,
                                     onPrefixTap: () async {
-                                      final RegionFlag region = await Navigator.push(
+                                      final RegionFlag region =
+                                          await Navigator.push(
                                         context,
                                         MaterialPageRoute(builder: (context) {
-                                          return RegionSelectionPage(regions: regions);
+                                          return RegionSelectionPage(
+                                              regions: regions);
                                         }),
                                       );
                                       if (region != null) {
@@ -85,7 +91,8 @@ class Login extends StatelessWidget {
                         children: [
                           Spacer(),
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20.0, vertical: 20.0),
                             child: Builder(
                               builder: (context) {
                                 return ButtonTheme(
@@ -93,9 +100,13 @@ class Login extends StatelessWidget {
                                     height: 50.0,
                                     child: Center(
                                         child: ElevatedButton(
-                                      style: GlobalStyle.getButtonStyle(context),
+                                      style:
+                                          GlobalStyle.getButtonStyle(context),
                                       onPressed: () async {
-                                        String phone = controller.getDefaultRegionFlag.dialCode! + controller.userName.value;
+                                        String phone = controller
+                                                .getDefaultRegionFlag
+                                                .dialCode! +
+                                            controller.userName.value;
                                         Navigator.of(context).push(
                                           MaterialPageRoute(
                                             builder: (_) => LoginPassword(

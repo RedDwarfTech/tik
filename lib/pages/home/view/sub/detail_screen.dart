@@ -2,9 +2,9 @@ import 'package:Tik/models/todo/todo_model.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 
-import '../../component/todo_badge.dart';
-import '../../models/hero_id_model.dart';
-import '../../models/todo/task_model.dart';
+import '../../../../component/todo_badge.dart';
+import '../../../../models/hero_id_model.dart';
+import '../../../../models/todo/task_model.dart';
 import 'add_todo_screen.dart';
 import 'edit_task_screen.dart';
 
@@ -51,8 +51,8 @@ class _DetailScreenState extends State<DetailScreen>
         color: Colors.white,
       );
     }
-    List<Todo> todos = new List.empty(growable: true);
-    todos.add(new Todo("name", parent: 0));
+    List<TodoTask> todos = new List.empty(growable: true);
+    todos.add(new TodoTask("name", parent: 0));
     var _todos = todos;
     var _hero = widget.heroIds;
     var _color = Colors.green;

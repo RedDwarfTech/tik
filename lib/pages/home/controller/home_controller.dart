@@ -1,17 +1,17 @@
-import 'package:Tik/networking/rest_api/todo/todo_provider.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 
-import '../../db/db_provider.dart';
-import '../../models/todo/todo_model.dart';
-import 'edit_task_screen.dart';
+import '../../../db/db_provider.dart';
+import '../../../models/todo/todo_model.dart';
+import '../../../networking/rest/task/todo_provider.dart';
+import '../view/sub/edit_task_screen.dart';
 
 class HomeController extends GetxController {
   List<Widget> newTaskList = List.empty(growable: true);
   List<Widget> completeTaskList = List.empty(growable: true);
-  List<Todo> tasks = List.empty(growable: true);
+  List<TodoTask> tasks = List.empty(growable: true);
   var newTaskExpanded = true.obs;
   var completedTaskExpanded = false.obs;
 
@@ -26,7 +26,7 @@ class HomeController extends GetxController {
    * why using List + Checkbox?
    * https://stackoverflow.com/questions/72905465/is-it-possible-to-know-trigger-checkbox-or-item-text-when-using-checkboxlisttile
    */
-  List<Widget> buildTodoItems(List<Todo> newTodos) {
+  List<Widget> buildTodoItems(List<TodoTask> newTodos) {
     List<Widget> newTasks = new List.empty(growable: true);
     List<Widget> completedTasks = new List.empty(growable: true);
     newTodos.forEach((element) {
@@ -38,8 +38,8 @@ class HomeController extends GetxController {
     return newTasks;
   }
 
-  void buildSingleTask(
-      Todo element, List<Widget> newTaskList, List<Widget> completeTaskList) {
+  void buildSingleTask(TodoTask element, List<Widget> newTaskList,
+      List<Widget> completeTaskList) {
     var card = Slidable(
       actionPane: SlidableDrawerActionPane(),
       actionExtentRatio: 0.25,
@@ -49,7 +49,7 @@ class HomeController extends GetxController {
           color: Colors.blue,
           icon: Icons.archive,
           onTap: () async => {
-            if (await TodoProvider.removeTodo(element)) {removeTodo(element)}
+            if (await TaskProvider.removeTask(element)) {removeTodo(element)}
           },
         ),
       ],
@@ -62,8 +62,8 @@ class HomeController extends GetxController {
             } else {
               element.isCompleted = 0;
             }
-            TodoProvider.updateTodo(element).then((value) => {
-                  TodoProvider.getTodos()
+            TaskProvider.updateTask(element).then((value) => {
+                  TaskProvider.getTasks()
                       .then((todos) => {buildTodoItems(todos)})
                 });
           },
@@ -91,7 +91,7 @@ class HomeController extends GetxController {
     }
   }
 
-  void updateTask(Todo todo) {
+  void updateTask(TodoTask todo) {
     tasks.forEach((element) {
       if (element.id == todo.id) {
         element.name = todo.name;
@@ -100,24 +100,24 @@ class HomeController extends GetxController {
     });
   }
 
-  void addTodo(Todo todo) {
+  void addTodo(TodoTask todo) {
     var _db = DBProvider.db;
     _db.insertTodo(todo).then((value) => {
           _db.getAllTodo().then((value1) => {buildTodoItems(value1)})
         });
   }
 
-  void removeLocalTodo(Todo todo) {
+  void removeLocalTodo(TodoTask todo) {
     newTaskList.obs.remove(todo);
   }
 
-  void removeTodo(Todo todo) {
-    TodoProvider.removeTodo(todo).then((value) => {
-          TodoProvider.getTodos().then((todos) => {buildTodoItems(todos)})
+  void removeTodo(TodoTask todo) {
+    TaskProvider.removeTask(todo).then((value) => {
+          TaskProvider.getTasks().then((todos) => {buildTodoItems(todos)})
         });
   }
 
-  void addTodos(List<Todo> todos) {
+  void addTodos(List<TodoTask> todos) {
     var _db = DBProvider.db;
     _db.insertBulkTodo(todos).then((value) => {
           _db.getAllTodo().then((value1) => {buildTodoItems(value1)})
