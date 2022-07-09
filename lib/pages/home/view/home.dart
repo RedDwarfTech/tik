@@ -23,7 +23,6 @@ class HomePage extends StatelessWidget {
           if (index == 1) {
             var expand = controller.completedTaskExpanded.value;
             controller.completedTaskExpanded(!expand);
-            controller.refresh();
           }
         },
         children: [
@@ -99,33 +98,7 @@ class HomePage extends StatelessWidget {
               child: Scaffold(
             appBar: AppBar(title: Text("title")),
             drawer: Drawer(
-              child: ListView(
-                children: [
-                  ListTile(
-                    title: const Text('清单1'),
-                    onTap: () {
-                      // Update the state of the app.
-                      // ...
-                    },
-                  ),
-                  ListTile(
-                    title: const Text('清单2'),
-                    onTap: () {
-                      // Update the state of the app.
-                      // ...
-                    },
-                  ),
-                  ElevatedButton.icon(
-                      onPressed: () {},
-                      icon: Icon(
-                        // <-- Icon
-                        Icons.add,
-                        size: 24.0,
-                      ),
-                      label: Text('添加清单'))
-                ],
-              ),
-            ),
+                child: ListView(children: homeController.buildTodoListItems())),
             body: _buildBody(context, controller),
             floatingActionButton: FloatingActionButton(
               onPressed: addTask,

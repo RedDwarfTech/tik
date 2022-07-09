@@ -9,13 +9,10 @@ class TodoList {
   int nodeType;
   String name;
   int color;
-  @JsonKey(name: 'code_point')
-  int codePoint;
 
   TodoList(
     this.name, {
     required this.color,
-    required this.codePoint,
     required int id,
     required int parentId,
     required int nodeType,

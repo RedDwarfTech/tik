@@ -39,7 +39,7 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
     void handleLocal(bool success, TodoTask todo) {
       if (success) {
         TaskProvider.getTasks()
-            .then((value) => {c.buildTodoItems(value), Navigator.pop(context)});
+            .then((value) => {c.buildTaskItems(value), Navigator.pop(context)});
       }
     }
 

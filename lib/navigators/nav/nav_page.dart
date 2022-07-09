@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
 
 import '../../pages/dev/dev_word.dart';
+import '../../pages/home/controller/home_controller.dart';
 import '../../pages/home/view/home.dart';
 import '../../pages/learn/todo_calendar.dart';
 import '../../pages/settings/settings.dart';
@@ -38,6 +41,8 @@ class Nav extends StatelessWidget {
               controller.updateSelectIndex(3);
             }
           }
+
+          final HomeController homeController = Get.put(HomeController());
 
           return Scaffold(
             body: controller.getCurrentWidget,
