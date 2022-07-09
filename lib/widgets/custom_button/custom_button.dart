@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 const EdgeInsets _kButtonPadding = EdgeInsets.all(6.0);
 const EdgeInsets _kBackgroundButtonPadding = EdgeInsets.symmetric(
@@ -13,17 +12,17 @@ const EdgeInsets _kBackgroundButtonPadding = EdgeInsets.symmetric(
 class CustomButton extends StatefulWidget {
   /// Creates an Custom-style button.
   const CustomButton({
-     Key? key,
-      this.processing,
-     this.child,
-     this.padding,
-     this.color,
+    Key? key,
+    this.processing,
+    this.child,
+    this.padding,
+    this.color,
     this.disabledColor = const Color(0x4D000000),
     this.minSize = kMinInteractiveDimensionCupertino,
     this.pressedOpacity = 0.4,
-     this.border,
+    this.border,
     this.borderRadius = const BorderRadius.all(Radius.circular(8.0)),
-     this.onPressed,
+    this.onPressed,
   })  : assert(pressedOpacity == null ||
             (pressedOpacity >= 0.0 && pressedOpacity <= 1.0)),
         assert(disabledColor != null),
@@ -37,16 +36,16 @@ class CustomButton extends StatefulWidget {
   /// To specify a custom background color, use the [color] argument of the
   /// default constructor.
   const CustomButton.filled({
-     Key? key,
-     this.processing,
-     this.child,
-     this.padding,
+    Key? key,
+    this.processing,
+    this.child,
+    this.padding,
     this.disabledColor = const Color(0x4D000000),
     this.minSize = kMinInteractiveDimensionCupertino,
     this.pressedOpacity = 0.4,
-     this.border,
+    this.border,
     this.borderRadius = const BorderRadius.all(Radius.circular(8.0)),
-     this.onPressed,
+    this.onPressed,
   })  : assert(pressedOpacity == null ||
             (pressedOpacity >= 0.0 && pressedOpacity <= 1.0)),
         assert(disabledColor != null),
@@ -61,10 +60,10 @@ class CustomButton extends StatefulWidget {
   /// To specify a custom background color, use the [color] argument of the
   /// default constructor.
   const CustomButton.outlined({
-     Key? key,
-     this.processing,
-     this.child,
-     this.padding,
+    Key? key,
+    this.processing,
+    this.child,
+    this.padding,
     this.disabledColor = const Color(0x4D000000),
     this.minSize = kMinInteractiveDimensionCupertino,
     this.pressedOpacity = 0.4,
@@ -72,7 +71,7 @@ class CustomButton extends StatefulWidget {
       BorderSide(color: Color(0xff939597)),
     ),
     this.borderRadius = const BorderRadius.all(Radius.circular(8.0)),
-     this.onPressed,
+    this.onPressed,
   })  : assert(pressedOpacity == null ||
             (pressedOpacity >= 0.0 && pressedOpacity <= 1.0)),
         assert(disabledColor != null),
@@ -157,8 +156,8 @@ class _CustomButtonState extends State<CustomButton>
   static const Duration kFadeInDuration = Duration(milliseconds: 100);
   final Tween<double> _opacityTween = Tween<double>(begin: 1.0);
 
-   AnimationController? _animationController;
-   Animation<double>? _opacityAnimation;
+  AnimationController? _animationController;
+  Animation<double>? _opacityAnimation;
 
   @override
   void initState() {
@@ -244,44 +243,44 @@ class _CustomButtonState extends State<CustomButton>
         themeData.textTheme.textStyle.copyWith(color: foregroundColor);
 
     return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTapDown: enabled ? _handleTapDown : null,
-      onTapUp: enabled ? _handleTapUp : null,
-      onTapCancel: enabled ? _handleTapCancel : null,
-      onTap: widget.onPressed,
-      child: Semantics(
-        button: true,
-        child: ConstrainedBox(
-          constraints: widget.minSize == null
-              ? const BoxConstraints()
-              : BoxConstraints(
-                  minWidth: widget.minSize!,
-                  minHeight: widget.minSize!,
+        behavior: HitTestBehavior.opaque,
+        onTapDown: enabled ? _handleTapDown : null,
+        onTapUp: enabled ? _handleTapUp : null,
+        onTapCancel: enabled ? _handleTapCancel : null,
+        onTap: widget.onPressed,
+        child: Semantics(
+          button: true,
+          child: ConstrainedBox(
+            constraints: widget.minSize == null
+                ? const BoxConstraints()
+                : BoxConstraints(
+                    minWidth: widget.minSize!,
+                    minHeight: widget.minSize!,
+                  ),
+            child: FadeTransition(
+              opacity: _opacityAnimation!,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  border: widget.border,
+                  borderRadius: widget.borderRadius,
+                  color: backgroundColor != null && !enabled
+                      ? CupertinoDynamicColor.resolve(
+                          widget.disabledColor!, context)
+                      : backgroundColor,
                 ),
-          child: FadeTransition(
-            opacity: _opacityAnimation!,
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                border: widget.border,
-                borderRadius: widget.borderRadius,
-                color: backgroundColor != null && !enabled
-                    ? CupertinoDynamicColor.resolve(
-                        widget.disabledColor!, context)
-                    : backgroundColor,
-              ),
-              child: Padding(
-                padding: widget.padding ??
-                    (backgroundColor != null
-                        ? _kBackgroundButtonPadding
-                        : _kButtonPadding),
-                child: Center(
-                  widthFactor: 1.0,
-                  heightFactor: 1.0,
+                child: Padding(
+                  padding: widget.padding ??
+                      (backgroundColor != null
+                          ? _kBackgroundButtonPadding
+                          : _kButtonPadding),
+                  child: Center(
+                    widthFactor: 1.0,
+                    heightFactor: 1.0,
+                  ),
+                ),
               ),
             ),
           ),
-        ),
-      ),
-    ));
+        ));
   }
 }

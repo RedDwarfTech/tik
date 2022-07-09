@@ -1,9 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import './custom_app_bar_back_button.dart';
-import './custom_app_bar_close_button.dart';
-
 export './custom_app_bar_action_item.dart';
 export './custom_app_bar_back_button.dart';
 export './custom_app_bar_close_button.dart';
@@ -33,29 +30,29 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double? leadingWidth;
 
   CustomAppBar({
-     Key? key,
-     this.leading,
+    Key? key,
+    this.leading,
     this.automaticallyImplyLeading = true,
-     this.title,
-     this.actions,
-     this.flexibleSpace,
-     this.bottom,
-     this.elevation,
+    this.title,
+    this.actions,
+    this.flexibleSpace,
+    this.bottom,
+    this.elevation,
     this.shadowColor = const Color(0x10000000),
-     this.shape,
-     this.backgroundColor,
-     this.brightness,
-     this.iconTheme,
-     this.actionsIconTheme,
-     this.textTheme,
+    this.shape,
+    this.backgroundColor,
+    this.brightness,
+    this.iconTheme,
+    this.actionsIconTheme,
+    this.textTheme,
     this.primary = true,
-     this.centerTitle,
+    this.centerTitle,
     this.excludeHeaderSemantics = false,
     this.titleSpacing = NavigationToolbar.kMiddleSpacing,
     this.toolbarOpacity = 1.0,
     this.bottomOpacity = 1.0,
-     this.toolbarHeight,
-     this.leadingWidth,
+    this.toolbarHeight,
+    this.leadingWidth,
   })  : assert(automaticallyImplyLeading != null),
         assert(elevation == null || elevation >= 0.0),
         assert(primary != null),
@@ -75,10 +72,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     if (leading == null && this.automaticallyImplyLeading!) {
       if (hasDrawer) {
         //
-      } else {
-
-
-      }
+      } else {}
     }
 
     Widget? bottom = this.bottom;

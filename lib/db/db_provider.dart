@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:sqflite/sqflite.dart';
+import 'dart:io';
+
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
+import 'package:sqflite/sqflite.dart';
 import 'package:wheel/wheel.dart';
-import 'dart:io';
 
 import '../models/todo/task_model.dart';
 import '../models/todo/todo_model.dart';
@@ -15,13 +15,9 @@ class DBProvider {
   DBProvider._();
   static final DBProvider db = DBProvider._();
 
-  var todos = [
+  var todos = [];
 
-  ];
-
-  var tasks = [
-
-  ];
+  var tasks = [];
 
   Future<Database> get database async {
     return _database ?? await initDB();
@@ -81,10 +77,10 @@ class DBProvider {
   Future<List<Todo>> getAllTodo() async {
     bool isLoggedIn = await Auth.isLoggedIn();
     if (isLoggedIn) {
-     List<Todo> todos = await TodoProvider.getTodos();
-     todos.sort((a, b) => a.isCompleted.compareTo(b.isCompleted));
-     return todos;
-    }else{
+      List<Todo> todos = await TodoProvider.getTodos();
+      todos.sort((a, b) => a.isCompleted.compareTo(b.isCompleted));
+      return todos;
+    } else {
       final db = await database;
       var result = await db.query('Todo');
       return result.map((it) => Todo.fromJson(it)).toList();

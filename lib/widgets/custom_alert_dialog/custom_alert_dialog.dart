@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -96,9 +94,7 @@ class CustomAlertDialog extends StatelessWidget {
               Container(
                 padding: EdgeInsets.only(left: 20, right: 20),
                 child: Row(
-                  children: <Widget>[
-
-                  ],
+                  children: <Widget>[],
                 ),
               ),
             ],

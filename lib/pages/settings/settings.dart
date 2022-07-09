@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:wheel/wheel.dart';
+
 import '../../../includes.dart';
 import '../user/login/login.dart';
 import '../user/profile/profile.dart';
@@ -19,7 +20,6 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-
   @override
   void initState() {
     super.initState();
@@ -27,10 +27,8 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   void _init() async {
-    setState(() {
-    });
+    setState(() {});
   }
-
 
   Widget _build(BuildContext context) {
     return Scaffold(
@@ -43,7 +41,7 @@ class _SettingsPageState extends State<SettingsPage> {
               )
             : null,
       ),
-      body:SafeArea(
+      body: SafeArea(
         child: Padding(
           padding: EdgeInsets.fromLTRB(0, 55, 0, 0),
           child: ListView(
@@ -62,18 +60,23 @@ class _SettingsPageState extends State<SettingsPage> {
                               bool isLoggedIn = await Auth.isLoggedIn();
                               if (isLoggedIn) {
                                 var user = await Auth.currentUser();
-                                Get.to(Profile(user: user,));
+                                Get.to(Profile(
+                                  user: user,
+                                ));
                               } else {
-                                List<RegionFlag> regions = await CommonUtils.getRegions();
+                                List<RegionFlag> regions =
+                                    await CommonUtils.getRegions();
                                 final inputController = TextEditingController();
-                                Get.to(Login(regions: regions,inputController: inputController,));
+                                Get.to(Login(
+                                  regions: regions,
+                                  inputController: inputController,
+                                ));
                               }
                             },
                           )))),
             ],
           ),
         ),
-
       ),
     );
   }

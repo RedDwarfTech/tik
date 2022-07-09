@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:wheel/wheel.dart';
 
 import '../../home/home.dart';
 

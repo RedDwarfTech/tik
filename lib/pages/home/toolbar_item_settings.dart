@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
 import '../../includes.dart';
 
 class ToolbarItemSettings extends StatefulWidget {
@@ -46,12 +47,12 @@ class _ToolbarItemSettingsState extends State<ToolbarItemSettings> {
             builder: (ctx) {
               return Container(
                 height: 600,
-                child:  SettingsPage(
-                    onDismiss: () {
-                      Navigator.of(ctx).pop();
-                      _handleDismiss();
-                    },
-                  ),
+                child: SettingsPage(
+                  onDismiss: () {
+                    Navigator.of(ctx).pop();
+                    _handleDismiss();
+                  },
+                ),
               );
             },
           );

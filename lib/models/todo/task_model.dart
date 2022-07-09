@@ -1,8 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import '../../utils/uuid.dart';
-
-
 part 'task_model.g.dart';
 
 @JsonSerializable()
@@ -17,8 +14,8 @@ class Task {
     this.name, {
     required this.color,
     required this.codePoint,
-        required int id,
-  }) : this.id = id ;
+    required int id,
+  }) : this.id = id;
 
   /// A necessary factory constructor for creating a new User instance
   /// from a map. Pass the map to the generated `_$TaskFromJson()` constructor.

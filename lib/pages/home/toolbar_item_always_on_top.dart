@@ -1,5 +1,7 @@
 import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
+
 import '../../includes.dart';
 
 class ToolbarItemAlwaysOnTop extends StatefulWidget {

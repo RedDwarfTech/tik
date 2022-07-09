@@ -1,5 +1,3 @@
-import 'package:meta/meta.dart';
-
 class HeroId {
   final String progressId;
   final String titleId;

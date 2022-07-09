@@ -1,4 +1,3 @@
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -8,13 +7,13 @@ class DevWordController extends GetxController {
 
   List<Card> _wordWidget = List.empty(growable: true);
 
-  DevWordController(TabController _tabController){
+  DevWordController(TabController _tabController) {
     _tabController.addListener(() {
       // https://stackoverflow.com/questions/60252355/tabcontroller-listener-called-multiple-times-how-does-indexischanging-work
       if (!_tabController.indexIsChanging) {
         switch (_tabController.index) {
           case 0:
-            renderWordCards(_tabController.index );
+            renderWordCards(_tabController.index);
             break;
           case 1:
             renderWordCards(_tabController.index);
@@ -27,7 +26,6 @@ class DevWordController extends GetxController {
     });
   }
 
-
   List<Card> get getCurrentRender => _wordWidget;
 
   @override
@@ -37,7 +35,7 @@ class DevWordController extends GetxController {
     super.onInit();
   }
 
-   Future<List<Card>> renderWordCards(int tabName) async {
+  Future<List<Card>> renderWordCards(int tabName) async {
     List<Card> cards = List.empty(growable: true);
 
     _wordWidget = cards;
@@ -55,7 +53,6 @@ class DevWordController extends GetxController {
       if (searchWord.value.isEmpty) {
         return;
       }
-
     } finally {
       isLoading(false);
     }
@@ -63,6 +60,5 @@ class DevWordController extends GetxController {
 
   void addLearningWord(String word) async {
     isLoading(true);
-
   }
 }

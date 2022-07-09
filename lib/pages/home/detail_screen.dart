@@ -1,6 +1,7 @@
 import 'package:Tik/models/todo/todo_model.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
+
 import '../../component/todo_badge.dart';
 import '../../models/hero_id_model.dart';
 import '../../models/todo/task_model.dart';
@@ -41,7 +42,7 @@ class _DetailScreenState extends State<DetailScreen>
   @override
   Widget build(BuildContext context) {
     _controller.forward();
-    Task _task = new Task("", color: 123, codePoint: 12,id: 0);
+    Task _task = new Task("", color: 123, codePoint: 12, id: 0);
 
     try {
       //_task = model.tasks.firstWhere((it) => it.id == widget.taskId);

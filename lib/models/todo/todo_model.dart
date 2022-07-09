@@ -1,7 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import '../../utils/uuid.dart';
-
 part 'todo_model.g.dart';
 
 @JsonSerializable()
@@ -15,7 +13,8 @@ class Todo {
   Todo(this.name, {required this.parent, this.isCompleted = 0, int? id})
       : this.id = id ?? 0;
 
-  Todo copy(Map map, {String? name, int? isCompleted, required int id, int? parent}) {
+  Todo copy(Map map,
+      {String? name, int? isCompleted, required int id, int? parent}) {
     return Todo(
       name ?? this.name,
       isCompleted: isCompleted ?? this.isCompleted,

@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../../includes.dart';
 
@@ -10,7 +9,6 @@ class TranslationInputView extends StatelessWidget {
   final FocusNode focusNode;
   final TextEditingController controller;
   final ValueChanged<String> onChanged;
-
 
   final String translationMode;
   final ValueChanged<String> onTranslationModeChanged;
@@ -72,7 +70,6 @@ class TranslationInputView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
       margin: EdgeInsets.only(
         left: 12,
@@ -124,7 +121,6 @@ class TranslationInputView extends StatelessWidget {
                       onButtonTappedTrans();
                     },
                   ),
-
                 ],
               ),
             ),

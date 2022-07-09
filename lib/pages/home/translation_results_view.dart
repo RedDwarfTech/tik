@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sticky_headers/sticky_headers.dart';
 
 import '../../../includes.dart';
 
@@ -83,9 +82,7 @@ class TranslationResultsView extends StatelessWidget {
           width: viewWidth,
           child: Column(
             mainAxisSize: MainAxisSize.max,
-            children: [
-
-            ],
+            children: [],
           ),
         ),
       ),

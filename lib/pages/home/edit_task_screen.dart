@@ -2,6 +2,7 @@ import 'package:Tik/networking/rest_api/todo/todo_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+
 import '../../component/colorpicker/color_picker_builder.dart';
 import '../../component/iconpicker/icon_picker_builder.dart';
 import '../../models/todo/todo_model.dart';
@@ -149,10 +150,8 @@ class _EditCardScreenState extends State<EditTaskScreen> {
                 Scaffold.of(context).showSnackBar(snackBar);
               } else {
                 var todo = Todo(taskName, parent: 0, id: taskId);
-                TodoProvider.updateTodoProperties(todo)
-                    .then((value) => {
-                      homeController.updateTask(value),
-                  Navigator.pop(context)});
+                TodoProvider.updateTodoProperties(todo).then((value) =>
+                    {homeController.updateTask(value), Navigator.pop(context)});
               }
             },
           );
