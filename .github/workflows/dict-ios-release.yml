@@ -29,8 +29,8 @@ jobs:
       - name: Bundle install
         run: |
           cd ./ios
-          gem install cocoapods -v 1.10.0
-          gem install fastlane -v 2.177.0
+          gem install cocoapods -v 1.11.3
+          gem install fastlane -v 2.206.2
           bundle install
 
       - name: Install tools
