@@ -34,7 +34,9 @@ class HomeController extends GetxController {
 
   void initTasks() {
     var _db = DBProvider.db;
-    _db.getAllTodo().then((value) => {tasks.addAll(value)});
+    _db
+        .getAllTodo()
+        .then((value) => {tasks.addAll(value), buildTaskItems(value)});
   }
 
   List<Widget> buildTodoListItems() {

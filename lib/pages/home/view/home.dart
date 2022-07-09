@@ -10,6 +10,7 @@ import 'sub/add_todo_screen.dart';
 class HomePage extends StatelessWidget {
   final HomeController homeController = Get.put(HomeController());
   final ScrollController scrollController = ScrollController();
+  final ScrollController scrollController1 = ScrollController();
 
   Widget _buildTodoView(BuildContext context, HomeController controller) {
     return SingleChildScrollView(
@@ -54,6 +55,7 @@ class HomePage extends StatelessWidget {
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
       itemCount: controller.newTaskList.obs.length,
+      controller: scrollController1,
       itemBuilder: (BuildContext context, int index) {
         Widget widget = controller.newTaskList.obs[index];
         return widget;
@@ -65,6 +67,7 @@ class HomePage extends StatelessWidget {
     return ListView.builder(
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
+      controller: scrollController,
       itemCount: controller.completeTaskList.obs.length,
       itemBuilder: (BuildContext context, int index) {
         Widget widget = controller.completeTaskList.obs[index];
