@@ -5,12 +5,12 @@ Tik is a simple GTD app.
 ## Getting Started
 
 ```bash
-# upgrade依赖
-/Users/xiaoqiangjiang/fvm/versions/2.10.3/bin/flutter pub upgrade
+# upgrade dependencies in the root of project
+./script/upgrade-dependencies.sh
 ```
 
 ## macOS
 
 ```
-flutter build macos --release
+flutter build macos --release --no-tree-shake-icons
 ```

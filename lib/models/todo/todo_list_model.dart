@@ -5,8 +5,8 @@ part 'todo_list_model.g.dart';
 @JsonSerializable()
 class TodoList {
   int id;
-  int parentId;
-  int nodeType;
+  int parent_id;
+  int node_type;
   String name;
   int color;
 
@@ -14,11 +14,11 @@ class TodoList {
     this.name, {
     required this.color,
     required int id,
-    required int parentId,
-    required int nodeType,
+    required int parent_id,
+    required int node_type,
   })  : this.id = id,
-        this.parentId = parentId,
-        this.nodeType = nodeType;
+        this.parent_id = parent_id,
+        this.node_type = node_type;
 
   /// A necessary factory constructor for creating a new User instance
   /// from a map. Pass the map to the generated `_$TaskFromJson()` constructor.

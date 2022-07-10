@@ -28,6 +28,7 @@ class HomeController extends GetxController {
   }
 
   void initTodoList() {
+    todoLists.clear();
     TodoListProvider.getTodos()
         .then((value) => {todoLists.addAll(value), buildTodoListItems()});
   }
@@ -46,7 +47,21 @@ class HomeController extends GetxController {
     });
     todoListWidgets = completedTasks;
     var btn = ElevatedButton.icon(
-        onPressed: () {},
+        onPressed: () {
+          Get.dialog(AlertDialog(
+              content: Column(children: [
+            Text("name:"),
+            ElevatedButton(
+              child: Text('添加'),
+              onPressed: () => {
+                TodoListProvider.saveTodo(new TodoList("test",
+                        id: 1, node_type: 1, parent_id: 0, color: 0))
+                    .then((value) => {initTodoList()})
+              },
+              // ** result: returns this value up the call stack **
+            ),
+          ])));
+        },
         icon: Icon(
           // <-- Icon
           Icons.add,
@@ -75,12 +90,22 @@ class HomeController extends GetxController {
   }
 
   void buildSingleTodo(TodoList element, List<Widget> completedTasks) {
-    var tile = ListTile(
-      title: Text(element.name),
-      onTap: () {
-        // Update the state of the app.
-      },
-    );
+    var tile = Slidable(
+        actionPane: SlidableDrawerActionPane(),
+        actions: <Widget>[
+          IconSlideAction(
+            caption: '删除',
+            color: Colors.blue,
+            icon: Icons.archive,
+            onTap: () async => {removeTodo(element)},
+          ),
+        ],
+        child: ListTile(
+          title: Text(element.name),
+          onTap: () {
+            // Update the state of the app.
+          },
+        ));
     completedTasks.add(tile);
   }
 
@@ -95,7 +120,7 @@ class HomeController extends GetxController {
           color: Colors.blue,
           icon: Icons.archive,
           onTap: () async => {
-            if (await TaskProvider.removeTask(element)) {removeTodo(element)}
+            if (await TaskProvider.removeTask(element)) {removeTask(element)}
           },
         ),
       ],
@@ -157,10 +182,14 @@ class HomeController extends GetxController {
     newTaskList.obs.remove(todo);
   }
 
-  void removeTodo(TodoTask todo) {
+  void removeTask(TodoTask todo) {
     TaskProvider.removeTask(todo).then((value) => {
           TaskProvider.getTasks().then((todos) => {buildTaskItems(todos)})
         });
+  }
+
+  void removeTodo(TodoList todo) {
+    TodoListProvider.removeTodo(todo).then((value) => {initTodoList()});
   }
 
   void addTodos(List<TodoTask> todos) {
