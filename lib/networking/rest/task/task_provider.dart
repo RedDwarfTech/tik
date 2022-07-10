@@ -15,15 +15,16 @@ class TaskProvider {
     }
   }
 
-  static Future<List<TodoTask>> getTasks() async {
-    var response = await RestClient.getHttp("/tik/task/v1/list");
+  static Future<List<TodoTask>> getTasks(int parent) async {
+    Map<String, Object> params = new HashMap();
+    params.putIfAbsent("parent", () => parent);
+    params.putIfAbsent("name", () => "parent");
+    var response = await RestClient.get("/tik/task/v1/list", queryParameters: params);
     if (RestClient.respSuccess(response)) {
       var todos = response.data["result"];
       List<TodoTask> todoList = List.empty(growable: true);
       todos.forEach((element) {
-        var elementId = element["id"];
-        TodoTask todo = new TodoTask(element["name"],
-            id: elementId, parent: 0, isCompleted: element["is_complete"]);
+        TodoTask todo = TodoTask.fromJson(element);
         todoList.add(todo);
       });
       todoList.sort((a, b) => a.isCompleted.compareTo(b.isCompleted));

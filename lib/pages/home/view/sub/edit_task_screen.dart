@@ -5,7 +5,7 @@ import 'package:get/get_core/src/get_main.dart';
 import '../../../../component/colorpicker/color_picker_builder.dart';
 import '../../../../component/iconpicker/icon_picker_builder.dart';
 import '../../../../models/todo/todo_model.dart';
-import '../../../../networking/rest/task/todo_provider.dart';
+import '../../../../networking/rest/task/task_provider.dart';
 import '../../controller/home_controller.dart';
 
 class EditTaskScreen extends StatefulWidget {

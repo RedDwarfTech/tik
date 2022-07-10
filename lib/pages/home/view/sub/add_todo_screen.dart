@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import '../../../../component/todo_badge.dart';
 import '../../../../models/hero_id_model.dart';
 import '../../../../models/todo/todo_model.dart';
-import '../../../../networking/rest/task/todo_provider.dart';
+import '../../../../networking/rest/task/task_provider.dart';
 import '../../controller/home_controller.dart';
 
 class AddTodoScreen extends StatefulWidget {
@@ -38,7 +38,7 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
 
     void handleLocal(bool success, TodoTask todo) {
       if (success) {
-        TaskProvider.getTasks()
+        TaskProvider.getTasks(todo.parent)
             .then((value) => {c.buildTaskItems(value), Navigator.pop(context)});
       }
     }

@@ -12,5 +12,6 @@ Tik is a simple GTD app.
 ## macOS
 
 ```
+# build macos in the root of project
 flutter build macos --release --no-tree-shake-icons
 ```

@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 
 import '../../../db/db_provider.dart';
 import '../../../models/todo/todo_model.dart';
-import '../../../networking/rest/task/todo_provider.dart';
+import '../../../networking/rest/task/task_provider.dart';
 import '../view/sub/edit_task_screen.dart';
 
 class HomeController extends GetxController {
@@ -22,21 +22,23 @@ class HomeController extends GetxController {
 
   @override
   void onInit() {
-    initTasks();
     initTodoList();
     super.onInit();
   }
 
   void initTodoList() {
     todoLists.clear();
-    TodoListProvider.getTodos()
-        .then((value) => {todoLists.addAll(value), buildTodoListItems()});
+    TodoListProvider.getTodos().then((value) =>
+        {todoLists.addAll(value), buildTodoListItems(), initTasks(value)});
   }
 
-  void initTasks() {
+  void initTasks(List<TodoList> todoList) {
+    // find the default list
+    var defaultTodoList =
+        todoList.where((element) => element.is_default == 1).toList();
     var _db = DBProvider.db;
     _db
-        .getAllTodo()
+        .getAllTodo(defaultTodoList[0].id)
         .then((value) => {tasks.addAll(value), buildTaskItems(value)});
   }
 
@@ -55,7 +57,11 @@ class HomeController extends GetxController {
               child: Text('添加'),
               onPressed: () => {
                 TodoListProvider.saveTodo(new TodoList("test",
-                        id: 1, node_type: 1, parent_id: 0, color: 0))
+                        id: 1,
+                        node_type: 1,
+                        parent_id: 0,
+                        color: 0,
+                        is_default: 0))
                     .then((value) => {initTodoList()})
               },
               // ** result: returns this value up the call stack **
@@ -77,10 +83,10 @@ class HomeController extends GetxController {
    * why using List + Checkbox?
    * https://stackoverflow.com/questions/72905465/is-it-possible-to-know-trigger-checkbox-or-item-text-when-using-checkboxlisttile
    */
-  List<Widget> buildTaskItems(List<TodoTask> newTodos) {
+  List<Widget> buildTaskItems(List<TodoTask> tasks) {
     List<Widget> newTasks = new List.empty(growable: true);
     List<Widget> completedTasks = new List.empty(growable: true);
-    newTodos.forEach((element) {
+    tasks.forEach((element) {
       buildSingleTask(element, newTasks, completedTasks);
     });
     newTaskList = newTasks;
@@ -104,9 +110,15 @@ class HomeController extends GetxController {
           title: Text(element.name),
           onTap: () {
             // Update the state of the app.
+            loadCurrentTodoListTasks(element);
           },
         ));
     completedTasks.add(tile);
+  }
+
+  void loadCurrentTodoListTasks(TodoList element) {
+    TaskProvider.getTasks(element.id).then(
+        (value) => {tasks.clear(), tasks.addAll(value), buildTaskItems(value)});
   }
 
   void buildSingleTask(TodoTask element, List<Widget> newTaskList,
@@ -134,7 +146,7 @@ class HomeController extends GetxController {
               element.isCompleted = 0;
             }
             TaskProvider.updateTask(element).then((value) => {
-                  TaskProvider.getTasks()
+                  TaskProvider.getTasks(element.parent)
                       .then((todos) => {buildTaskItems(todos)})
                 });
           },
@@ -174,7 +186,7 @@ class HomeController extends GetxController {
   void addTodo(TodoTask todo) {
     var _db = DBProvider.db;
     _db.insertTodo(todo).then((value) => {
-          _db.getAllTodo().then((value1) => {buildTaskItems(value1)})
+          _db.getAllTodo(todo.parent).then((value1) => {buildTaskItems(value1)})
         });
   }
 
@@ -184,18 +196,12 @@ class HomeController extends GetxController {
 
   void removeTask(TodoTask todo) {
     TaskProvider.removeTask(todo).then((value) => {
-          TaskProvider.getTasks().then((todos) => {buildTaskItems(todos)})
+          TaskProvider.getTasks(todo.id)
+              .then((todos) => {buildTaskItems(todos)})
         });
   }
 
   void removeTodo(TodoList todo) {
     TodoListProvider.removeTodo(todo).then((value) => {initTodoList()});
-  }
-
-  void addTodos(List<TodoTask> todos) {
-    var _db = DBProvider.db;
-    _db.insertBulkTodo(todos).then((value) => {
-          _db.getAllTodo().then((value1) => {buildTaskItems(value1)})
-        });
   }
 }

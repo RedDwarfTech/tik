@@ -9,6 +9,7 @@ class TodoList {
   int node_type;
   String name;
   int color;
+  int is_default;
 
   TodoList(
     this.name, {
@@ -16,9 +17,11 @@ class TodoList {
     required int id,
     required int parent_id,
     required int node_type,
+    required int is_default,
   })  : this.id = id,
         this.parent_id = parent_id,
-        this.node_type = node_type;
+        this.node_type = node_type,
+        this.is_default = is_default;
 
   /// A necessary factory constructor for creating a new User instance
   /// from a map. Pass the map to the generated `_$TaskFromJson()` constructor.

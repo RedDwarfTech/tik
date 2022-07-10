@@ -11,7 +11,8 @@ TodoList _$TaskFromJson(Map<String, dynamic> json) {
       color: json['color'] as int,
       id: json['id'],
       parent_id: json['parent_id'],
-      node_type: json['node_type']);
+      node_type: json['node_type'],
+      is_default: json['is_default']);
 }
 
 Map<String, dynamic> _$TaskToJson(TodoList instance) => <String, dynamic>{
@@ -20,4 +21,5 @@ Map<String, dynamic> _$TaskToJson(TodoList instance) => <String, dynamic>{
       'color': instance.color,
       'parent_id': instance.parent_id,
       'node_type': instance.node_type,
+      'is_default': instance.is_default,
     };

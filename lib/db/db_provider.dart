@@ -7,7 +7,7 @@ import 'package:wheel/wheel.dart';
 
 import '../models/todo/task_model.dart';
 import '../models/todo/todo_model.dart';
-import '../networking/rest/task/todo_provider.dart';
+import '../networking/rest/task/task_provider.dart';
 
 class DBProvider {
   static Database? _database;
@@ -74,10 +74,10 @@ class DBProvider {
     return result.map((it) => Task.fromJson(it)).toList();
   }
 
-  Future<List<TodoTask>> getAllTodo() async {
+  Future<List<TodoTask>> getAllTodo(int parent) async {
     bool isLoggedIn = await Auth.isLoggedIn();
     if (isLoggedIn) {
-      List<TodoTask> todos = await TaskProvider.getTasks();
+      List<TodoTask> todos = await TaskProvider.getTasks(parent);
       todos.sort((a, b) => a.isCompleted.compareTo(b.isCompleted));
       return todos;
     } else {
