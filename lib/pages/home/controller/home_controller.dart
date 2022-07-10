@@ -16,6 +16,7 @@ class HomeController extends GetxController {
   List<TodoTask> tasks = List.empty(growable: true);
   var newTaskExpanded = true.obs;
   var completedTaskExpanded = false.obs;
+  var activeTodoList = null;
 
   List<TodoList> todoLists = List.empty(growable: true);
   List<Widget> todoListWidgets = List.empty(growable: true);
@@ -28,18 +29,15 @@ class HomeController extends GetxController {
 
   void initTodoList() {
     todoLists.clear();
-    TodoListProvider.getTodos().then((value) =>
-        {todoLists.addAll(value), buildTodoListItems(), initTasks(value)});
+    TodoListProvider.getTodos().then((value) => {todoLists.addAll(value), buildTodoListItems(), initTasks(value)});
   }
 
   void initTasks(List<TodoList> todoList) {
     // find the default list
-    var defaultTodoList =
-        todoList.where((element) => element.is_default == 1).toList();
+    var defaultTodoList = todoList.where((element) => element.is_default == 1).toList();
     var _db = DBProvider.db;
-    _db
-        .getAllTodo(defaultTodoList[0].id)
-        .then((value) => {tasks.addAll(value), buildTaskItems(value)});
+    activeTodoList = defaultTodoList[0];
+    _db.getAllTodo(defaultTodoList[0].id).then((value) => {tasks.addAll(value), buildTaskItems(value)});
   }
 
   List<Widget> buildTodoListItems() {
@@ -56,12 +54,8 @@ class HomeController extends GetxController {
             ElevatedButton(
               child: Text('添加'),
               onPressed: () => {
-                TodoListProvider.saveTodo(new TodoList("test",
-                        id: 1,
-                        node_type: 1,
-                        parent_id: 0,
-                        color: 0,
-                        is_default: 0))
+                TodoListProvider.saveTodo(
+                        new TodoList("test", id: 1, node_type: 1, parent_id: 0, color: 0, is_default: 0))
                     .then((value) => {initTodoList()})
               },
               // ** result: returns this value up the call stack **
@@ -117,12 +111,11 @@ class HomeController extends GetxController {
   }
 
   void loadCurrentTodoListTasks(TodoList element) {
-    TaskProvider.getTasks(element.id).then(
-        (value) => {tasks.clear(), tasks.addAll(value), buildTaskItems(value)});
+    activeTodoList = element;
+    TaskProvider.getTasks(element.id).then((value) => {tasks.clear(), tasks.addAll(value), buildTaskItems(value)});
   }
 
-  void buildSingleTask(TodoTask element, List<Widget> newTaskList,
-      List<Widget> completeTaskList) {
+  void buildSingleTask(TodoTask element, List<Widget> newTaskList, List<Widget> completeTaskList) {
     var card = Slidable(
       actionPane: SlidableDrawerActionPane(),
       actionExtentRatio: 0.25,
@@ -146,15 +139,12 @@ class HomeController extends GetxController {
               element.isCompleted = 0;
             }
             TaskProvider.updateTask(element).then((value) => {
-                  TaskProvider.getTasks(element.parent)
-                      .then((todos) => {buildTaskItems(todos)})
+                  TaskProvider.getTasks(element.parent).then((todos) => {buildTaskItems(todos)})
                 });
           },
         ),
         title: Text(element.name,
-            style: element.isCompleted == 1
-                ? TextStyle(color: Colors.grey)
-                : TextStyle(color: Colors.black),
+            style: element.isCompleted == 1 ? TextStyle(color: Colors.grey) : TextStyle(color: Colors.black),
             overflow: TextOverflow.ellipsis),
         selected: element.isCompleted == 1 ? true : false,
         onTap: () {
@@ -196,8 +186,7 @@ class HomeController extends GetxController {
 
   void removeTask(TodoTask todo) {
     TaskProvider.removeTask(todo).then((value) => {
-          TaskProvider.getTasks(todo.id)
-              .then((todos) => {buildTaskItems(todos)})
+          TaskProvider.getTasks(todo.id).then((todos) => {buildTaskItems(todos)})
         });
   }
 

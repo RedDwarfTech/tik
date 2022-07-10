@@ -34,12 +34,12 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final HomeController c = Get.put(HomeController());
+    final HomeController homeController = Get.put(HomeController());
 
     void handleLocal(bool success, TodoTask todo) {
       if (success) {
         TaskProvider.getTasks(todo.parent)
-            .then((value) => {c.buildTaskItems(value), Navigator.pop(context)});
+            .then((value) => {homeController.buildTaskItems(value), Navigator.pop(context)});
       }
     }
 
@@ -65,10 +65,7 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
           children: [
             Text(
               '想要完成什么事项呢？',
-              style: TextStyle(
-                  color: Colors.black38,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 16.0),
+              style: TextStyle(color: Colors.black38, fontWeight: FontWeight.w600, fontSize: 16.0),
             ),
             Container(
               height: 16.0,
@@ -85,10 +82,7 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
                   hintStyle: TextStyle(
                     color: Colors.black26,
                   )),
-              style: TextStyle(
-                  color: Colors.black54,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 36.0),
+              style: TextStyle(color: Colors.black54, fontWeight: FontWeight.w500, fontSize: 36.0),
             ),
             Container(
               height: 26.0,
@@ -136,10 +130,9 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
               } else {
                 var todo = TodoTask(
                   newTask,
-                  parent: 0,
+                  parent: homeController.activeTodoList.id,
                 );
-                TaskProvider.saveTask(todo)
-                    .then((value) => {handleLocal(value, todo)});
+                TaskProvider.saveTask(todo).then((value) => {handleLocal(value, todo)});
               }
             },
           );
