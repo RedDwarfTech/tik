@@ -9,12 +9,11 @@ class TodoTask {
   String name;
   @JsonKey(name: 'completed')
   int isCompleted;
+  int? complete_time;
 
-  TodoTask(this.name, {required this.parent, this.isCompleted = 0, int? id})
-      : this.id = id ?? 0;
+  TodoTask(this.name, {required this.parent, this.isCompleted = 0, int? id, this.complete_time}) : this.id = id ?? 0;
 
-  TodoTask copy(Map map,
-      {String? name, int? isCompleted, required int id, int? parent}) {
+  TodoTask copy(Map map, {String? name, int? isCompleted, required int id, int? parent}) {
     return TodoTask(
       name ?? this.name,
       isCompleted: isCompleted ?? this.isCompleted,

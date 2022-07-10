@@ -133,6 +133,7 @@ class HomeController extends GetxController {
           onChanged: (bool? value) {
             if (value!) {
               element.isCompleted = 1;
+              element.complete_time = DateTime.now().millisecondsSinceEpoch;
             } else {
               element.isCompleted = 0;
             }

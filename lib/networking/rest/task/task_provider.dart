@@ -49,6 +49,9 @@ class TaskProvider {
     Map<String, Object> params = new HashMap();
     params.putIfAbsent("id", () => todo.id);
     params.putIfAbsent("is_complete", () => todo.isCompleted);
+    if (todo.complete_time != null) {
+      params.putIfAbsent("complete_time", () => todo.complete_time!);
+    }
     var response = await RestClient.patch("/tik/task/v1/update", params);
     if (RestClient.respSuccess(response)) {
       return true;

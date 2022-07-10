@@ -94,7 +94,8 @@ class HomePage extends StatelessWidget {
         builder: (controller) {
           return SafeArea(
               child: Scaffold(
-            appBar: AppBar(title: Text("${controller.activeTodoList.name}")),
+            appBar: AppBar(
+                title: Text("${controller.activeTodoList == null ? 'unknown' : controller.activeTodoList.name}")),
             drawer: Drawer(child: ListView(children: homeController.buildTodoListItems())),
             body: _buildBody(context, controller),
             floatingActionButton: FloatingActionButton(
