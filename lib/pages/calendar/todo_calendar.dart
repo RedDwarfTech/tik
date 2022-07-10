@@ -5,8 +5,8 @@ import 'package:table_calendar/table_calendar.dart';
 
 import 'new_word_controller.dart';
 
-class TodoCalandar extends StatelessWidget {
-  TodoCalandar({Key? key}) : super(key: key);
+class TodoCalendar extends StatelessWidget {
+  TodoCalendar({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return GetBuilder<NewWordController>(

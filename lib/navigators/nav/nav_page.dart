@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
 
+import '../../pages/calendar/complex_example.dart';
 import '../../pages/dev/dev_word.dart';
 import '../../pages/home/view/home.dart';
-import '../../pages/learn/todo_calendar.dart';
 import '../../pages/settings/settings.dart';
 import 'nav_controller.dart';
 
@@ -24,7 +24,7 @@ class Nav extends StatelessWidget {
               controller.updateSelectIndex(0);
             }
             if (index == 1) {
-              Widget widget = TodoCalandar();
+              Widget widget = TableComplexExample();
               controller.updateCurrentWidget(widget);
               controller.updateSelectIndex(1);
             }
