@@ -34,7 +34,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return Scaffold(
       backgroundColor: const Color(0xFFEFEFEF),
       appBar: CustomAppBar(
-        title: Text('title'),
+        title: Text('我的'),
         leading: widget.onDismiss != null
             ? CustomAppBarCloseButton(
                 onPressed: widget.onDismiss!,
@@ -64,8 +64,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                   user: user,
                                 ));
                               } else {
-                                List<RegionFlag> regions =
-                                    await CommonUtils.getRegions();
+                                List<RegionFlag> regions = await CommonUtils.getRegions();
                                 final inputController = TextEditingController();
                                 Get.to(Login(
                                   regions: regions,

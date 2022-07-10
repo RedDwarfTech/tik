@@ -49,10 +49,8 @@ class Nav extends StatelessWidget {
                     icon: Icon(Icons.subscriptions),
                     label: "日历",
                   ),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.rss_feed), label: '象限'),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.school), label: '我的'),
+                  BottomNavigationBarItem(icon: Icon(Icons.rss_feed), label: '象限'),
+                  BottomNavigationBarItem(icon: Icon(Icons.school), label: '我的'),
                 ],
                 currentIndex: controller.currentSelectIndex,
                 fixedColor: Theme.of(context).primaryColor,
