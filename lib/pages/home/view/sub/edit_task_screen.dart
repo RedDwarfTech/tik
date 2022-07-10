@@ -111,7 +111,16 @@ class _EditCardScreenState extends State<EditTaskScreen> {
                 ColorPickerBuilder(
                     color: taskColor,
                     onColorChanged: (newColor) => {
-                          if (newColor == Colors.red) {homeController.taskPriority(1)}
+                          if (newColor == Colors.red)
+                            {homeController.taskPriority(1)}
+                          else if (newColor == Colors.yellow)
+                            {homeController.taskPriority(2)}
+                          else if (newColor == Colors.blue)
+                            {homeController.taskPriority(3)}
+                          else if (newColor == Colors.grey)
+                            {homeController.taskPriority(4)}
+                          else
+                            {homeController.taskPriority(0)}
                         }),
                 Container(
                   width: 22.0,

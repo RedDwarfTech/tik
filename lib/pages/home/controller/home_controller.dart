@@ -82,7 +82,13 @@ class HomeController extends GetxController {
   List<Widget> buildTaskItems(List<TodoTask> tasks) {
     List<Widget> newTasks = new List.empty(growable: true);
     List<Widget> completedTasks = new List.empty(growable: true);
-    tasks.forEach((element) {
+    List<TodoTask> newElements = tasks.where((element) => element.isCompleted != 1).toList();
+    newElements.sort((a, b) => b.schedule_time.compareTo(a.schedule_time));
+    List<TodoTask> completeElements = tasks.where((element) => element.isCompleted == 1).toList();
+    newElements.forEach((element) {
+      buildSingleTask(element, newTasks, completedTasks);
+    });
+    completeElements.forEach((element) {
       buildSingleTask(element, newTasks, completedTasks);
     });
     newTaskList = newTasks;
@@ -135,6 +141,20 @@ class HomeController extends GetxController {
     }
   }
 
+  Color getCheckBoxColor(TodoTask element) {
+    if (element.priority == 1) {
+      return Colors.red;
+    } else if (element.priority == 2) {
+      return Colors.yellow;
+    } else if (element.priority == 3) {
+      return Colors.blue;
+    } else if (element.priority == 4) {
+      return Colors.grey;
+    } else {
+      return Colors.black;
+    }
+  }
+
   void buildSingleTask(TodoTask element, List<Widget> newTaskList, List<Widget> completeTaskList) {
     var scheduleTime = getTaskTime(element);
     var card = Slidable(
@@ -156,7 +176,7 @@ class HomeController extends GetxController {
         leading: Theme(
             data: ThemeData(
               primarySwatch: Colors.blue,
-              unselectedWidgetColor: Colors.red, // Your color
+              unselectedWidgetColor: getCheckBoxColor(element),
             ),
             child: Checkbox(
               value: element.isCompleted == 1 ? true : false,
