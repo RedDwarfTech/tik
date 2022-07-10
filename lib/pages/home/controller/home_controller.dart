@@ -124,9 +124,7 @@ class HomeController extends GetxController {
           caption: '删除',
           color: Colors.blue,
           icon: Icons.archive,
-          onTap: () async => {
-            if (await TaskProvider.removeTask(element)) {removeTask(element)}
-          },
+          onTap: () async => {removeTask(element)},
         ),
       ],
       child: ListTile(
@@ -186,7 +184,7 @@ class HomeController extends GetxController {
 
   void removeTask(TodoTask todo) {
     TaskProvider.removeTask(todo).then((value) => {
-          TaskProvider.getTasks(todo.id).then((todos) => {buildTaskItems(todos)})
+          TaskProvider.getTasks(todo.parent).then((todos) => {buildTaskItems(todos)})
         });
   }
 

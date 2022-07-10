@@ -10,7 +10,6 @@ import 'sub/add_todo_screen.dart';
 class HomePage extends StatelessWidget {
   final HomeController homeController = Get.put(HomeController());
   final ScrollController scrollController = ScrollController();
-  final ScrollController scrollController1 = ScrollController();
 
   Widget _buildTodoView(BuildContext context, HomeController controller) {
     return SingleChildScrollView(
@@ -55,7 +54,7 @@ class HomePage extends StatelessWidget {
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
       itemCount: controller.newTaskList.obs.length,
-      controller: scrollController1,
+      controller: scrollController,
       itemBuilder: (BuildContext context, int index) {
         Widget widget = controller.newTaskList.obs[index];
         return widget;
@@ -81,11 +80,7 @@ class HomePage extends StatelessWidget {
   }
 
   Future<void> addTask() async {
-    HeroId heroId = new HeroId(
-        progressId: '121',
-        titleId: '232',
-        remainingTaskId: '4242',
-        codePointId: '2424');
+    HeroId heroId = new HeroId(progressId: '121', titleId: '232', remainingTaskId: '4242', codePointId: '2424');
     Get.to(AddTodoScreen(
       taskId: '1',
       heroIds: heroId,
@@ -100,8 +95,7 @@ class HomePage extends StatelessWidget {
           return SafeArea(
               child: Scaffold(
             appBar: AppBar(title: Text("title")),
-            drawer: Drawer(
-                child: ListView(children: homeController.buildTodoListItems())),
+            drawer: Drawer(child: ListView(children: homeController.buildTodoListItems())),
             body: _buildBody(context, controller),
             floatingActionButton: FloatingActionButton(
               onPressed: addTask,
