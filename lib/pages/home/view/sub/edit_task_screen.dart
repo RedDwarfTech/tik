@@ -97,7 +97,7 @@ class _EditCardScreenState extends State<EditTaskScreen> {
               autofocus: true,
               decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: 'Category Name...',
+                  hintText: '任务名称',
                   hintStyle: TextStyle(
                     color: Colors.black26,
                   )),
@@ -109,11 +109,10 @@ class _EditCardScreenState extends State<EditTaskScreen> {
             Row(
               children: [
                 ColorPickerBuilder(
-                  color: taskColor,
-                  onColorChanged: (newColor) => setState(
-                    () => taskColor = newColor,
-                  ),
-                ),
+                    color: taskColor,
+                    onColorChanged: (newColor) => {
+                          if (newColor == Colors.red) {homeController.taskPriority(1)}
+                        }),
                 Container(
                   width: 22.0,
                 ),
@@ -146,8 +145,11 @@ class _EditCardScreenState extends State<EditTaskScreen> {
                 );
                 Scaffold.of(context).showSnackBar(snackBar);
               } else {
-                var todo =
-                    TodoTask(taskName, parent: 0, id: taskId, schedule_time: DateTime.now().millisecondsSinceEpoch);
+                var todo = TodoTask(taskName,
+                    parent: 0,
+                    id: taskId,
+                    schedule_time: DateTime.now().millisecondsSinceEpoch,
+                    priority: homeController.taskPriority.value);
                 TaskProvider.updateTaskProperties(todo)
                     .then((value) => {homeController.updateTask(value), Navigator.pop(context)});
               }

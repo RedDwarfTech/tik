@@ -18,6 +18,7 @@ class HomeController extends GetxController {
   var newTaskExpanded = true.obs;
   var completedTaskExpanded = false.obs;
   var activeTodoList = null;
+  var taskPriority = 0.obs;
 
   List<TodoList> todoLists = List.empty(growable: true);
   List<Widget> todoListWidgets = List.empty(growable: true);
@@ -152,20 +153,25 @@ class HomeController extends GetxController {
           scheduleTime,
           style: new TextStyle(color: Colors.blue),
         ),
-        leading: Checkbox(
-          value: element.isCompleted == 1 ? true : false,
-          onChanged: (bool? value) {
-            if (value!) {
-              element.isCompleted = 1;
-              element.complete_time = DateTime.now().millisecondsSinceEpoch;
-            } else {
-              element.isCompleted = 0;
-            }
-            TaskProvider.updateTask(element).then((value) => {
-                  TaskProvider.getTasks(element.parent).then((todos) => {buildTaskItems(todos)})
-                });
-          },
-        ),
+        leading: Theme(
+            data: ThemeData(
+              primarySwatch: Colors.blue,
+              unselectedWidgetColor: Colors.red, // Your color
+            ),
+            child: Checkbox(
+              value: element.isCompleted == 1 ? true : false,
+              onChanged: (bool? value) {
+                if (value!) {
+                  element.isCompleted = 1;
+                  element.complete_time = DateTime.now().millisecondsSinceEpoch;
+                } else {
+                  element.isCompleted = 0;
+                }
+                TaskProvider.updateTask(element).then((value) => {
+                      TaskProvider.getTasks(element.parent).then((todos) => {buildTaskItems(todos)})
+                    });
+              },
+            )),
         title: Text(element.name,
             style: element.isCompleted == 1 ? TextStyle(color: Colors.grey) : TextStyle(color: Colors.black),
             overflow: TextOverflow.ellipsis),

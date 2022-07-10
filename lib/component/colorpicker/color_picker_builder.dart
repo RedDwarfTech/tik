@@ -3,7 +3,6 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 import '../../utils/color_utils.dart';
 
-
 class ColorPickerBuilder extends StatelessWidget {
   final Color color;
   final ValueChanged<Color> onColorChanged;
@@ -26,10 +25,10 @@ class ColorPickerBuilder extends StatelessWidget {
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
-                    title: Text('Select a color'),
+                    title: Text('选择优先级'),
                     content: SingleChildScrollView(
                       child: BlockPicker(
-                        availableColors: ColorUtils.defaultColors,
+                        availableColors: ColorUtils.taskPriorityColors,
                         pickerColor: color,
                         onColorChanged: onColorChanged,
                       ),

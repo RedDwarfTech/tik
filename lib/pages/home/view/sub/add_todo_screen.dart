@@ -129,7 +129,9 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
                 Scaffold.of(context).showSnackBar(snackBar);
               } else {
                 var todo = TodoTask(newTask,
-                    parent: homeController.activeTodoList.id, schedule_time: DateTime.now().millisecondsSinceEpoch);
+                    parent: homeController.activeTodoList.id,
+                    schedule_time: DateTime.now().millisecondsSinceEpoch,
+                    priority: 0);
                 TaskProvider.saveTask(todo).then((value) => {handleLocal(value, todo)});
               }
             },

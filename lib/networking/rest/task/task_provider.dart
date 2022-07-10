@@ -64,6 +64,7 @@ class TaskProvider {
     Map<String, Object> params = new HashMap();
     params.putIfAbsent("id", () => todo.id);
     params.putIfAbsent("name", () => todo.name);
+    params.putIfAbsent("priority", () => todo.priority);
     var response = await RestClient.patch("/tik/task/v1/update", params);
     if (RestClient.respSuccess(response)) {
       var updateResult = response.data["result"];

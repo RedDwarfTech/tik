@@ -23,6 +23,13 @@ class ColorUtils {
     Colors.grey,
   ];
 
+  static const List<Color> taskPriorityColors = [
+    Colors.red,
+    Colors.yellow,
+    Colors.blue,
+    Colors.grey,
+  ];
+
   static Map<int, Color> _color = {
     50: Color.fromRGBO(136, 14, 79, .1),
     100: Color.fromRGBO(136, 14, 79, .2),

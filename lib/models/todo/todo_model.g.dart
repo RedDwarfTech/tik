@@ -11,12 +11,14 @@ TodoTask _$TodoFromJson(Map<String, dynamic> json) {
       parent: json['parent'],
       isCompleted: json['is_complete'] as int,
       id: json['id'],
-      schedule_time: json["schedule_time"]);
+      schedule_time: json["schedule_time"],
+      priority: json["priority"]);
 }
 
 Map<String, dynamic> _$TodoToJson(TodoTask instance) => <String, dynamic>{
       'id': instance.id,
       'parent': instance.parent,
       'name': instance.name,
-      'completed': instance.isCompleted
+      'completed': instance.isCompleted,
+      'priority': instance.priority
     };
