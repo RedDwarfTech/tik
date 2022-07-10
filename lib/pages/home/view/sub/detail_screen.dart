@@ -23,8 +23,7 @@ class DetailScreen extends StatefulWidget {
   }
 }
 
-class _DetailScreenState extends State<DetailScreen>
-    with SingleTickerProviderStateMixin {
+class _DetailScreenState extends State<DetailScreen> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<Offset> _animation;
 
@@ -35,8 +34,7 @@ class _DetailScreenState extends State<DetailScreen>
       vsync: this,
       duration: Duration(milliseconds: 300),
     );
-    _animation = Tween<Offset>(begin: Offset(0, 1.0), end: Offset(0.0, 0.0))
-        .animate(_controller);
+    _animation = Tween<Offset>(begin: Offset(0, 1.0), end: Offset(0.0, 0.0)).animate(_controller);
   }
 
   @override
@@ -52,7 +50,6 @@ class _DetailScreenState extends State<DetailScreen>
       );
     }
     List<TodoTask> todos = new List.empty(growable: true);
-    todos.add(new TodoTask("name", parent: 0));
     var _todos = todos;
     var _hero = widget.heroIds;
     var _color = Colors.green;
@@ -115,10 +112,7 @@ class _DetailScreenState extends State<DetailScreen>
                       tag: _hero.remainingTaskId,
                       child: Text(
                         " Task",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyText1
-                            ?.copyWith(color: Colors.grey[500]),
+                        style: Theme.of(context).textTheme.bodyText1?.copyWith(color: Colors.grey[500]),
                       ),
                     ),
                   ),
@@ -126,10 +120,7 @@ class _DetailScreenState extends State<DetailScreen>
                     child: Hero(
                       tag: 'title_hero_unused', //_hero.titleId,
                       child: Text(_task.name,
-                          style: Theme.of(context)
-                              .textTheme
-                              .subtitle1
-                              ?.copyWith(color: Colors.black54)),
+                          style: Theme.of(context).textTheme.subtitle1?.copyWith(color: Colors.black54)),
                     ),
                   ),
                   Spacer(),
@@ -153,8 +144,7 @@ class _DetailScreenState extends State<DetailScreen>
                         onTap: () => {
                           //model.updateTodo(todo.copy(isCompleted: todo.isCompleted == 1 ? 0 : 1))
                         },
-                        contentPadding:
-                            EdgeInsets.symmetric(horizontal: 0, vertical: 8.0),
+                        contentPadding: EdgeInsets.symmetric(horizontal: 0, vertical: 8.0),
                         leading: Checkbox(
                             onChanged: (value) => {
                                   //model.updateTodo(todo.copy(isCompleted: value == true ? 1 : 0))
@@ -169,11 +159,8 @@ class _DetailScreenState extends State<DetailScreen>
                           style: TextStyle(
                             fontSize: 18.0,
                             fontWeight: FontWeight.w600,
-                            color:
-                                todo.isCompleted == 1 ? _color : Colors.black54,
-                            decoration: todo.isCompleted == 1
-                                ? TextDecoration.lineThrough
-                                : TextDecoration.none,
+                            color: todo.isCompleted == 1 ? _color : Colors.black54,
+                            decoration: todo.isCompleted == 1 ? TextDecoration.lineThrough : TextDecoration.none,
                           ),
                         ),
                       ),
@@ -191,8 +178,7 @@ class _DetailScreenState extends State<DetailScreen>
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) =>
-                    AddTodoScreen(taskId: widget.taskId, heroIds: _hero),
+                builder: (context) => AddTodoScreen(taskId: widget.taskId, heroIds: _hero),
               ),
             );
           },
@@ -238,8 +224,7 @@ class SimpleAlertDialog extends StatelessWidget {
               content: SingleChildScrollView(
                 child: ListBody(
                   children: <Widget>[
-                    Text(
-                        'This is a one way street! Deleting this will remove all the task assigned in this card.'),
+                    Text('This is a one way street! Deleting this will remove all the task assigned in this card.'),
                   ],
                 ),
               ),

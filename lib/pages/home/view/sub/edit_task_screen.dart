@@ -101,10 +101,7 @@ class _EditCardScreenState extends State<EditTaskScreen> {
                   hintStyle: TextStyle(
                     color: Colors.black26,
                   )),
-              style: TextStyle(
-                  color: Colors.black54,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 36.0),
+              style: TextStyle(color: Colors.black54, fontWeight: FontWeight.w500, fontSize: 36.0),
             ),
             Container(
               height: 26.0,
@@ -149,9 +146,10 @@ class _EditCardScreenState extends State<EditTaskScreen> {
                 );
                 Scaffold.of(context).showSnackBar(snackBar);
               } else {
-                var todo = TodoTask(taskName, parent: 0, id: taskId);
-                TaskProvider.updateTaskProperties(todo).then((value) =>
-                    {homeController.updateTask(value), Navigator.pop(context)});
+                var todo =
+                    TodoTask(taskName, parent: 0, id: taskId, schedule_time: DateTime.now().millisecondsSinceEpoch);
+                TaskProvider.updateTaskProperties(todo)
+                    .then((value) => {homeController.updateTask(value), Navigator.pop(context)});
               }
             },
           );

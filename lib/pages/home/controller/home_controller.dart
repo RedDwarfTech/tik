@@ -6,6 +6,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 
 import '../../../db/db_provider.dart';
+import '../../../includes.dart';
 import '../../../models/todo/todo_model.dart';
 import '../../../networking/rest/task/task_provider.dart';
 import '../view/sub/edit_task_screen.dart';
@@ -101,12 +102,11 @@ class HomeController extends GetxController {
           ),
         ],
         child: ListTile(
-          title: Text(element.name),
-          onTap: () {
-            // Update the state of the app.
-            loadCurrentTodoListTasks(element);
-          },
-        ));
+            title: Text(element.name),
+            onTap: () {
+              // Update the state of the app.
+              loadCurrentTodoListTasks(element);
+            }));
     completedTasks.add(tile);
   }
 
@@ -115,7 +115,27 @@ class HomeController extends GetxController {
     TaskProvider.getTasks(element.id).then((value) => {tasks.clear(), tasks.addAll(value), buildTaskItems(value)});
   }
 
+  String getTaskTime(TodoTask element) {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final yesterday = DateTime(now.year, now.month, now.day - 1);
+    final tomorrow = DateTime(now.year, now.month, now.day + 1);
+    DateTime dateToCheck = new DateTime.fromMicrosecondsSinceEpoch(element.schedule_time * 1000);
+    final aDate = DateTime(dateToCheck.year, dateToCheck.month, dateToCheck.day);
+    if (aDate == today) {
+      return "今天";
+    } else if (aDate == yesterday) {
+      return "昨天";
+    } else if (aDate == tomorrow) {
+      return "明天";
+    } else {
+      var d24 = DateFormat('yyyy-MM-dd').format(dateToCheck);
+      return d24;
+    }
+  }
+
   void buildSingleTask(TodoTask element, List<Widget> newTaskList, List<Widget> completeTaskList) {
+    var scheduleTime = getTaskTime(element);
     var card = Slidable(
       actionPane: SlidableDrawerActionPane(),
       actionExtentRatio: 0.25,
@@ -128,6 +148,10 @@ class HomeController extends GetxController {
         ),
       ],
       child: ListTile(
+        trailing: Text(
+          scheduleTime,
+          style: new TextStyle(color: Colors.blue),
+        ),
         leading: Checkbox(
           value: element.isCompleted == 1 ? true : false,
           onChanged: (bool? value) {

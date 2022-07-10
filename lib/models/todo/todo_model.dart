@@ -10,16 +10,18 @@ class TodoTask {
   @JsonKey(name: 'completed')
   int isCompleted;
   int? complete_time;
+  int schedule_time;
 
-  TodoTask(this.name, {required this.parent, this.isCompleted = 0, int? id, this.complete_time}) : this.id = id ?? 0;
+  TodoTask(this.name,
+      {required this.parent, this.isCompleted = 0, int? id, this.complete_time, required this.schedule_time})
+      : this.id = id ?? 0;
 
-  TodoTask copy(Map map, {String? name, int? isCompleted, required int id, int? parent}) {
-    return TodoTask(
-      name ?? this.name,
-      isCompleted: isCompleted ?? this.isCompleted,
-      id: id,
-      parent: parent ?? this.parent,
-    );
+  TodoTask copy(Map map, {String? name, int? isCompleted, required int id, int? parent, required int schedule_time}) {
+    return TodoTask(name ?? this.name,
+        isCompleted: isCompleted ?? this.isCompleted,
+        id: id,
+        parent: parent ?? this.parent,
+        schedule_time: schedule_time);
   }
 
   /// A necessary factory constructor for creating a new User instance
