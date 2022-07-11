@@ -9,6 +9,7 @@ import '../../../db/db_provider.dart';
 import '../../../includes.dart';
 import '../../../models/todo/todo_model.dart';
 import '../../../networking/rest/task/task_provider.dart';
+import '../../calendar/controller/calendar_controller.dart';
 import '../view/sub/edit_task_screen.dart';
 
 class HomeController extends GetxController {
@@ -22,10 +23,11 @@ class HomeController extends GetxController {
 
   List<TodoList> todoLists = List.empty(growable: true);
   List<Widget> todoListWidgets = List.empty(growable: true);
-
+  final CalendarController calendarController = Get.put(CalendarController());
   @override
   void onInit() {
     initTodoList();
+    calendarController.initialTasks();
     super.onInit();
   }
 
@@ -56,8 +58,7 @@ class HomeController extends GetxController {
             ElevatedButton(
               child: Text('添加'),
               onPressed: () => {
-                TodoListProvider.saveTodo(
-                        new TodoList("test", id: 1, node_type: 1, parent_id: 0, color: 0, is_default: 0))
+                TodoListProvider.saveTodo(new TodoList("test", id: 1, node_type: 1, parent_id: 0, color: 0, is_default: 0))
                     .then((value) => {initTodoList()})
               },
               // ** result: returns this value up the call stack **

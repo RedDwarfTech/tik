@@ -21,6 +21,19 @@ class CalendarController extends GetxController {
   }
 
   List<TodoTask> getEventsForDay(DateTime day) {
+    final DateFormat formatter = DateFormat('yyyy-MM-dd');
+    String dateString = formatter.format(day);
+    List<TodoTask> dayTodoTask = taskMap[dateString] ?? [];
+    return dayTodoTask;
+  }
+
+  void initialTasks() {
+    int monthStartMilliseconds = DateTimeUtils.startOfMonthMilliseconds(DateTime.now());
+    int monthEndMilliseconds = DateTimeUtils.endOfMonthMilliseconds(DateTime.now());
+    TaskProvider.getTasksByRangeDate(monthStartMilliseconds, monthEndMilliseconds).then((value) => {buildHashMap(value)});
+  }
+
+  List<TodoTask> getEventsForDayLegacy(DateTime day) {
     var taskResult;
     int monthStartMilliseconds = DateTimeUtils.startOfMonthMilliseconds(DateTime.now());
     int monthEndMilliseconds = DateTimeUtils.endOfMonthMilliseconds(DateTime.now());

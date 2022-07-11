@@ -55,7 +55,7 @@ class _TableComplexExampleState extends State<TableComplexExample> {
       _rangeEnd = null;
       _rangeSelectionMode = RangeSelectionMode.toggledOff;
     });
-    calendarController.selectedEvents.value = await calendarController.getEventsForDay(selectedDay);
+    calendarController.selectedEvents.value = calendarController.getEventsForDay(selectedDay);
   }
 
   Future<void> _onRangeSelected(DateTime? start, DateTime? end, DateTime focusedDay) async {
