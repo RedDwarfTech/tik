@@ -5,8 +5,12 @@ import 'dart:collection';
 
 import 'package:Tik/pages/calendar/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
+
+import '../../../models/todo/todo_model.dart';
+import '../controller/calendar_controller.dart';
 
 class TableComplexExample extends StatefulWidget {
   @override
@@ -15,7 +19,7 @@ class TableComplexExample extends StatefulWidget {
 
 class _TableComplexExampleState extends State<TableComplexExample> {
   late final PageController _pageController;
-  late final ValueNotifier<List<Event>> _selectedEvents;
+  late final ValueNotifier<List<TodoTask>> _selectedEvents;
   final ValueNotifier<DateTime> _focusedDay = ValueNotifier(DateTime.now());
   final Set<DateTime> _selectedDays = LinkedHashSet<DateTime>(
     equals: isSameDay,
@@ -43,17 +47,17 @@ class _TableComplexExampleState extends State<TableComplexExample> {
 
   bool get canClearSelection => _selectedDays.isNotEmpty || _rangeStart != null || _rangeEnd != null;
 
-  List<Event> _getEventsForDay(DateTime day) {
+  List<TodoTask> _getEventsForDay(DateTime day) {
     return kEvents[day] ?? [];
   }
 
-  List<Event> _getEventsForDays(Iterable<DateTime> days) {
+  List<TodoTask> _getEventsForDays(Iterable<DateTime> days) {
     return [
       for (final d in days) ..._getEventsForDay(d),
     ];
   }
 
-  List<Event> _getEventsForRange(DateTime start, DateTime end) {
+  List<TodoTask> _getEventsForRange(DateTime start, DateTime end) {
     final days = daysInRange(start, end);
     return _getEventsForDays(days);
   }
@@ -93,98 +97,111 @@ class _TableComplexExampleState extends State<TableComplexExample> {
     }
   }
 
+  Widget buildCalendarHeader(DateTime value) {
+    return _CalendarHeader(
+      focusedDay: value,
+      clearButtonVisible: canClearSelection,
+      onTodayButtonTap: () {
+        setState(() => _focusedDay.value = DateTime.now());
+      },
+      onClearButtonTap: () {
+        setState(() {
+          _rangeStart = null;
+          _rangeEnd = null;
+          _selectedDays.clear();
+          _selectedEvents.value = [];
+        });
+      },
+      onLeftArrowTap: () {
+        _pageController.previousPage(
+          duration: Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      },
+      onRightArrowTap: () {
+        _pageController.nextPage(
+          duration: Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      },
+    );
+  }
+
+  Widget buildEvents(List<TodoTask> value) {
+    return ListView.builder(
+      itemCount: value.length,
+      itemBuilder: (context, index) {
+        return Container(
+          margin: const EdgeInsets.symmetric(
+            horizontal: 12.0,
+            vertical: 4.0,
+          ),
+          decoration: BoxDecoration(
+            border: Border.all(),
+            borderRadius: BorderRadius.circular(12.0),
+          ),
+          child: ListTile(
+            onTap: () => print('${value[index]}'),
+            title: Text('${value[index].name}'),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          ValueListenableBuilder<DateTime>(
-            valueListenable: _focusedDay,
-            builder: (context, value, _) {
-              return _CalendarHeader(
-                focusedDay: value,
-                clearButtonVisible: canClearSelection,
-                onTodayButtonTap: () {
-                  setState(() => _focusedDay.value = DateTime.now());
-                },
-                onClearButtonTap: () {
-                  setState(() {
-                    _rangeStart = null;
-                    _rangeEnd = null;
-                    _selectedDays.clear();
-                    _selectedEvents.value = [];
-                  });
-                },
-                onLeftArrowTap: () {
-                  _pageController.previousPage(
-                    duration: Duration(milliseconds: 300),
-                    curve: Curves.easeOut,
-                  );
-                },
-                onRightArrowTap: () {
-                  _pageController.nextPage(
-                    duration: Duration(milliseconds: 300),
-                    curve: Curves.easeOut,
-                  );
-                },
-              );
-            },
-          ),
-          TableCalendar<Event>(
-            firstDay: kFirstDay,
-            lastDay: kLastDay,
-            focusedDay: _focusedDay.value,
-            headerVisible: false,
-            selectedDayPredicate: (day) => _selectedDays.contains(day),
-            rangeStartDay: _rangeStart,
-            rangeEndDay: _rangeEnd,
-            calendarFormat: _calendarFormat,
-            rangeSelectionMode: _rangeSelectionMode,
-            eventLoader: _getEventsForDay,
-            holidayPredicate: (day) {
-              // Every 20th day of the month will be treated as a holiday
-              return day.day == 20;
-            },
-            onDaySelected: _onDaySelected,
-            onRangeSelected: _onRangeSelected,
-            onCalendarCreated: (controller) => _pageController = controller,
-            onPageChanged: (focusedDay) => _focusedDay.value = focusedDay,
-            onFormatChanged: (format) {
-              if (_calendarFormat != format) {
-                setState(() => _calendarFormat = format);
-              }
-            },
-          ),
-          const SizedBox(height: 8.0),
-          Expanded(
-            child: ValueListenableBuilder<List<Event>>(
-              valueListenable: _selectedEvents,
-              builder: (context, value, _) {
-                return ListView.builder(
-                  itemCount: value.length,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      margin: const EdgeInsets.symmetric(
-                        horizontal: 12.0,
-                        vertical: 4.0,
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border.all(),
-                        borderRadius: BorderRadius.circular(12.0),
-                      ),
-                      child: ListTile(
-                        onTap: () => print('${value[index]}'),
-                        title: Text('${value[index]}'),
-                      ),
-                    );
+    return GetBuilder<CalendarController>(
+        init: CalendarController(),
+        builder: (controller) {
+          return Scaffold(
+              body: SafeArea(
+            child: Column(
+              children: [
+                ValueListenableBuilder<DateTime>(
+                  valueListenable: _focusedDay,
+                  builder: (context, value, _) {
+                    return buildCalendarHeader(value);
                   },
-                );
-              },
+                ),
+                TableCalendar<TodoTask>(
+                  firstDay: kFirstDay,
+                  lastDay: kLastDay,
+                  focusedDay: _focusedDay.value,
+                  headerVisible: false,
+                  selectedDayPredicate: (day) => _selectedDays.contains(day),
+                  rangeStartDay: _rangeStart,
+                  rangeEndDay: _rangeEnd,
+                  calendarFormat: _calendarFormat,
+                  rangeSelectionMode: _rangeSelectionMode,
+                  eventLoader: _getEventsForDay,
+                  holidayPredicate: (day) {
+                    // Every 20th day of the month will be treated as a holiday
+                    return day.day == 20;
+                  },
+                  onDaySelected: _onDaySelected,
+                  onRangeSelected: _onRangeSelected,
+                  onCalendarCreated: (controller) => _pageController = controller,
+                  onPageChanged: (focusedDay) => _focusedDay.value = focusedDay,
+                  onFormatChanged: (format) {
+                    if (_calendarFormat != format) {
+                      setState(() => _calendarFormat = format);
+                    }
+                  },
+                ),
+                const SizedBox(height: 8.0),
+                Expanded(
+                  child: ValueListenableBuilder<List<TodoTask>>(
+                    valueListenable: _selectedEvents,
+                    builder: (context, value, _) {
+                      return buildEvents(value);
+                    },
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
-    );
+          ));
+        });
   }
 }
 

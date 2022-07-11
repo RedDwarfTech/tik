@@ -1,5 +1,4 @@
 // 请按文件名排序放置
-export './language_chooser/language_chooser.dart';
 export './setting_app_language/setting_app_language.dart';
 export './setting_extract_text/setting_extract_text.dart';
 export './setting_interface/setting_interface.dart';

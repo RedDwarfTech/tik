@@ -1,7 +1,6 @@
 import 'package:intl/intl.dart';
 
-class DateTimeUtils {
-  
+class TikDateTimeUtils {
   static String get currentDay {
     DateTime now = DateTime.now();
     return DateFormat('EEEE').format(now);
@@ -16,5 +15,4 @@ class DateTimeUtils {
     DateTime now = DateTime.now();
     return DateFormat('d').format(now);
   }
-
 }

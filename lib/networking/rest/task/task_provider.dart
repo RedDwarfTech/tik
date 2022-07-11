@@ -34,6 +34,26 @@ class TaskProvider {
     }
   }
 
+  static Future<List<TodoTask>> getTasksByRangeDate(int startTime, int endTime) async {
+    Map<String, Object> params = new HashMap();
+    params.putIfAbsent("start_time", () => startTime);
+    params.putIfAbsent("end_time", () => endTime);
+    params.putIfAbsent("name", () => "parent");
+    var response = await RestClient.get("/tik/task/v1/list", queryParameters: params);
+    if (RestClient.respSuccess(response)) {
+      var todos = response.data["result"];
+      List<TodoTask> todoList = List.empty(growable: true);
+      todos.forEach((element) {
+        TodoTask todo = TodoTask.fromJson(element);
+        todoList.add(todo);
+      });
+      todoList.sort((a, b) => a.isCompleted.compareTo(b.isCompleted));
+      return todoList;
+    } else {
+      return new List.empty();
+    }
+  }
+
   static Future<bool> removeTask(TodoTask todo) async {
     Map<String, Object> params = new HashMap();
     params.putIfAbsent("id", () => todo.id);

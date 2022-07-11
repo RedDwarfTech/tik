@@ -1,5 +1,3 @@
-import 'package:tray_manager/tray_manager.dart';
-
 import './env.dart';
 
 // 请按文件名排序放置
@@ -11,5 +9,3 @@ export './r.dart';
 export './remove_nulls.dart';
 
 final sharedEnv = Env.instance;
-
-final TrayManager trayManager = TrayManager.instance;
