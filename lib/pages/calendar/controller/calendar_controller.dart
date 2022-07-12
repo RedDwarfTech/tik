@@ -10,6 +10,7 @@ import '../../../models/todo/todo_model.dart';
 import '../../../networking/rest/task/task_provider.dart';
 
 class CalendarController extends GetxController {
+  DateTime selectedDays = DateTime.now();
   List<TodoTask> tasks = List.empty(growable: true);
   Map<String, List<TodoTask>> taskMap = new HashMap();
   final ValueNotifier<DateTime> focusedDay = ValueNotifier(DateTime.now());

@@ -17,7 +17,6 @@ class TableComplexExample extends StatefulWidget {
 
 class _TableComplexExampleState extends State<TableComplexExample> {
   late final PageController _pageController;
-  DateTime? _selectedDays;
   CalendarFormat _calendarFormat = CalendarFormat.month;
   RangeSelectionMode _rangeSelectionMode = RangeSelectionMode.toggledOff;
   DateTime? _rangeStart;
@@ -27,7 +26,7 @@ class _TableComplexExampleState extends State<TableComplexExample> {
   @override
   void initState() {
     super.initState();
-    _selectedDays = calendarController.focusedDay.value;
+    calendarController.selectedDays = calendarController.focusedDay.value;
   }
 
   @override
@@ -55,6 +54,7 @@ class _TableComplexExampleState extends State<TableComplexExample> {
       _rangeEnd = null;
       _rangeSelectionMode = RangeSelectionMode.toggledOff;
     });
+    calendarController.selectedDays = selectedDay;
     calendarController.selectedEvents.value = calendarController.getEventsForDay(selectedDay);
   }
 
@@ -126,6 +126,16 @@ class _TableComplexExampleState extends State<TableComplexExample> {
     );
   }
 
+  bool v(DateTime day) {
+    String d24 = DateFormat('yyyy-MM-dd').format(day);
+    String selected = DateFormat('yyyy-MM-dd').format(calendarController.selectedDays);
+    if (d24 == selected) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return GetBuilder<CalendarController>(
@@ -150,6 +160,7 @@ class _TableComplexExampleState extends State<TableComplexExample> {
                   rangeEndDay: _rangeEnd,
                   calendarFormat: _calendarFormat,
                   rangeSelectionMode: _rangeSelectionMode,
+                  selectedDayPredicate: (day) => v(day),
                   eventLoader: calendarController.getEventsForDay,
                   holidayPredicate: (day) {
                     // Every 20th day of the month will be treated as a holiday
