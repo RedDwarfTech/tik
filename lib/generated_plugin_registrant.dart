@@ -6,7 +6,7 @@
 // ignore_for_file: lines_longer_than_80_chars
 // ignore_for_file: depend_on_referenced_packages
 
-import 'package:audioplayers/web/audioplayers_web.dart';
+import 'package:audioplayers_web/audioplayers_web.dart';
 import 'package:device_info_plus_web/device_info_plus_web.dart';
 import 'package:flutter_secure_storage_web/flutter_secure_storage_web.dart';
 import 'package:fluttertoast/fluttertoast_web.dart';

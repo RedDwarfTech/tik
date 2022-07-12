@@ -12,7 +12,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
-  audioplayers: ^0.19.1
+  audioplayers: 1.0.1
   bot_toast: ^4.0.1
   device_info_plus: ^3.1.0
   dio: ^4.0.0
@@ -72,6 +72,7 @@ flutter:
     - assets/translations/
     - assets/cfg/
     - assets/static/
+    - assets/audio/
 
   fonts:
     - family: icomoon

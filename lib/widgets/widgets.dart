@@ -8,6 +8,5 @@ export './language_flag_view/language_flag_view.dart';
 export './language_label/language_label.dart';
 export './preference_list/preference_list.dart';
 export './record_shortcut_dialog/record_shortcut_dialog.dart';
-export './sound_play_button/sound_play_button.dart';
 export './translation_result_view/translation_result_view.dart';
 export './virtual_window_frame/virtual_window_frame.dart';

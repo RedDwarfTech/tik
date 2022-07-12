@@ -1,5 +1,6 @@
 import 'package:Tik/models/todo/todo_list_model.dart';
 import 'package:Tik/networking/rest/list/todo_list_provider.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -24,6 +25,7 @@ class HomeController extends GetxController {
   List<TodoList> todoLists = List.empty(growable: true);
   List<Widget> todoListWidgets = List.empty(growable: true);
   final CalendarController calendarController = Get.put(CalendarController());
+
   @override
   void onInit() {
     initTodoList();
@@ -156,6 +158,12 @@ class HomeController extends GetxController {
     }
   }
 
+  Future<void> playDoneAudio() async {
+    AudioPlayer audioPlayer = new AudioPlayer();
+    audioPlayer.setSourceAsset("audio/done.mp3");
+    audioPlayer.resume();
+  }
+
   void buildSingleTask(TodoTask element, List<Widget> newTaskList, List<Widget> completeTaskList) {
     var scheduleTime = getTaskTime(element);
     var card = Slidable(
@@ -189,6 +197,7 @@ class HomeController extends GetxController {
                   element.isCompleted = 0;
                 }
                 TaskProvider.updateTask(element).then((value) => {
+                      playDoneAudio(),
                       TaskProvider.getTasks(element.parent).then((todos) => {buildTaskItems(todos)})
                     });
               },
