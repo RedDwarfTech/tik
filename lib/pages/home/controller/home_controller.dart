@@ -246,9 +246,16 @@ class HomeController extends GetxController {
   }
 
   void removeTask(TodoTask todo) {
-    TaskProvider.removeTask(todo).then((value) => {
-          TaskProvider.getTasks(todo.parent).then((todos) => {buildTaskItems(todos)})
-        });
+    TaskProvider.removeTask(todo).then((value) => {handleTaskRemoved(todo)});
+  }
+
+  void handleTaskRemoved(TodoTask task) {
+    // remove calendar
+    DateTime scheduleTime = DateTime.fromMillisecondsSinceEpoch(task.schedule_time);
+    final DateFormat formatter = DateFormat('yyyy-MM-dd');
+    String dateString = formatter.format(scheduleTime);
+    calendarController.taskMap[dateString]?.removeWhere((element) => element.id == task.id);
+    TaskProvider.getTasks(task.parent).then((todos) => {buildTaskItems(todos)});
   }
 
   void removeTodo(TodoList todo) {

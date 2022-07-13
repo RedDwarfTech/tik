@@ -32,15 +32,6 @@ class CalendarController extends GetxController {
     TaskProvider.getTasksByRangeDate(monthStartMilliseconds, monthEndMilliseconds).then((value) => {buildHashMap(value)});
   }
 
-  List<TodoTask> getEventsForDayLegacy(DateTime day) {
-    var taskResult;
-    int monthStartMilliseconds = DateTimeUtils.startOfMonthMilliseconds(DateTime.now());
-    int monthEndMilliseconds = DateTimeUtils.endOfMonthMilliseconds(DateTime.now());
-    TaskProvider.getTasksByRangeDate(monthStartMilliseconds, monthEndMilliseconds)
-        .then((value) => {() => taskResult = getTasks(value, day)});
-    return taskResult ?? [];
-  }
-
   List<TodoTask> getTasks(List<TodoTask> tasks, DateTime day) {
     tasks.addAll(tasks);
     buildHashMap(tasks);
