@@ -1,69 +1,62 @@
-import 'package:Tik/networking/rest/list/todo_list_provider.dart';
+import 'dart:collection';
+
+import 'package:Tik/networking/rest/task/task_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wheel/wheel.dart';
+
+import '../../models/todo/todo_model.dart';
 
 class QuadrantController extends GetxController {
-  var isLoading = true.obs;
-  var searchWord = "".obs;
-
-  List<Card> _wordWidget = List.empty(growable: true);
-
-  QuadrantController(TabController _tabController) {
-    _tabController.addListener(() {
-      // https://stackoverflow.com/questions/60252355/tabcontroller-listener-called-multiple-times-how-does-indexischanging-work
-      if (!_tabController.indexIsChanging) {
-        switch (_tabController.index) {
-          case 0:
-            renderWordCards(_tabController.index);
-            break;
-          case 1:
-            renderWordCards(_tabController.index);
-            break;
-          case 2:
-            renderWordCards(_tabController.index);
-            break;
-        }
-      }
-    });
-  }
-
-  List<Card> get getCurrentRender => _wordWidget;
+  List<TodoTask> tasks = List.empty(growable: true);
+  late BuildContext context;
+  RxDouble childAspectRatio = 0.0.obs;
 
   @override
   void onInit() {
-    renderWordCards(0);
-
+    getTodoTasks();
     super.onInit();
   }
 
-  Future<List<Card>> renderWordCards(int tabName) async {
-    List<Card> cards = List.empty(growable: true);
+  List<Widget> buildBoardItems(List<TodoTask> items) {
+    List<Widget> widgets = new List.empty(growable: true);
+    items.forEach((element) {
+      var cards = SliverToBoxAdapter(
+          child: Card(
+        child: CheckboxListTile(
+          controlAffinity: ListTileControlAffinity.leading,
+          title: Text(element.name),
+          value: true,
+          onChanged: (bool? value) {},
+        ),
+      ));
+      widgets.add(cards);
+    });
+    return widgets;
+  }
 
-    _wordWidget = cards;
-    update();
-    return Future.value(cards);
+  Widget buildListViewItemWidget(int index, List<TodoTask> items) {
+    return Card(
+      color: Colors.cyan[100 * (index % 9)],
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10.0))),
+      child: CustomScrollView(
+        slivers: buildBoardItems(items),
+      ),
+    );
+  }
+
+  Map<int, String> getBoards() {
+    Map<int, String> boardItem = new HashMap();
+    boardItem.putIfAbsent(0, () => "重要且紧急");
+    boardItem.putIfAbsent(1, () => "重要不紧急");
+    boardItem.putIfAbsent(2, () => "不重要紧急");
+    boardItem.putIfAbsent(3, () => "不重要不紧急");
+    return boardItem;
   }
 
   void getTodoTasks() {
-    TodoListProvider.getTodos();
-  }
-
-  void updateWords(String word) async {
-    searchWord(word);
-  }
-
-  void fetchSearchResult() async {
-    isLoading(true);
-    try {
-      if (searchWord.value.isEmpty) {
-        return;
-      }
-    } finally {
-      isLoading(false);
-    }
-  }
-
-  void addLearningWord(String word) async {
-    isLoading(true);
+    int monthStartMilliseconds = DateTimeUtils.startOfMonthMilliseconds(DateTime.now());
+    int monthEndMilliseconds = DateTimeUtils.endOfMonthMilliseconds(DateTime.now());
+    TaskProvider.getTasksByRangeDate(monthStartMilliseconds, monthEndMilliseconds).then((value) => {tasks.addAll(value), update()});
   }
 }

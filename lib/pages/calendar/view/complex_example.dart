@@ -1,6 +1,3 @@
-// Copyright 2019 Aleksander Woźniak
-// SPDX-License-Identifier: Apache-2.0
-
 import 'package:Tik/pages/calendar/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -126,10 +123,10 @@ class _TableComplexExampleState extends State<TableComplexExample> {
     );
   }
 
-  bool v(DateTime day) {
-    String d24 = DateFormat('yyyy-MM-dd').format(day);
+  bool isTheSameDay(DateTime day) {
+    String legacyDay = DateFormat('yyyy-MM-dd').format(day);
     String selected = DateFormat('yyyy-MM-dd').format(calendarController.selectedDays);
-    if (d24 == selected) {
+    if (legacyDay == selected) {
       return true;
     } else {
       return false;
@@ -160,7 +157,7 @@ class _TableComplexExampleState extends State<TableComplexExample> {
                   rangeEndDay: _rangeEnd,
                   calendarFormat: _calendarFormat,
                   rangeSelectionMode: _rangeSelectionMode,
-                  selectedDayPredicate: (day) => v(day),
+                  selectedDayPredicate: (day) => isTheSameDay(day),
                   eventLoader: calendarController.getEventsForDay,
                   holidayPredicate: (day) {
                     // Every 20th day of the month will be treated as a holiday
