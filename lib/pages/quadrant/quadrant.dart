@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../models/todo_item.dart';
-import 'dev_word_controller.dart';
+import 'quadrant_controller.dart';
 
 class Quadrant extends StatefulWidget {
   Quadrant({Key? key}) : super(key: key);
@@ -17,8 +17,7 @@ class Quadrant extends StatefulWidget {
   }
 }
 
-class _TabControllerStuState extends State<Quadrant>
-    with SingleTickerProviderStateMixin {
+class _TabControllerStuState extends State<Quadrant> with SingleTickerProviderStateMixin {
   late TabController _tabController;
   List tabs = ["生词", "已记住", "全部"];
 
@@ -36,8 +35,8 @@ class _TabControllerStuState extends State<Quadrant>
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<DevWordController>(
-        init: DevWordController(_tabController),
+    return GetBuilder<QuadrantController>(
+        init: QuadrantController(_tabController),
         builder: (controller) {
           Widget renderWordList() {
             return ListView(children: controller.getCurrentRender);
@@ -47,7 +46,7 @@ class _TabControllerStuState extends State<Quadrant>
             List<Widget> widgets = new List.empty(growable: true);
             items.forEach((element) {
               var cards = SliverToBoxAdapter(
-                  child:Card(
+                  child: Card(
                 child: CheckboxListTile(
                   controlAffinity: ListTileControlAffinity.leading,
                   title: Text("洗澡" + element.priority.toString()),
@@ -71,23 +70,16 @@ class _TabControllerStuState extends State<Quadrant>
 
           for (int i = 0; i < 30; i++) {
             TodoItem ti = new TodoItem(
-                id: 1,
-                priority: _random.nextInt(4) + 1,
-                itemName: "dddddd",
-                createdTime: 1,
-                scheduleTime: 1,
-                taskStatus: 1,
-                tags: "tags");
+                id: 1, priority: _random.nextInt(4) + 1, itemName: "dddddd", createdTime: 1, scheduleTime: 1, taskStatus: 1, tags: "tags");
             items.add(ti);
           }
 
           Widget buildListViewItemWidget(int index, List<TodoItem> items) {
             return Card(
               color: Colors.cyan[100 * (index % 9)],
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10.0))),
               child: CustomScrollView(
-                  slivers: buildBoardItems(items),
+                slivers: buildBoardItems(items),
               ),
             );
           }
@@ -106,11 +98,8 @@ class _TabControllerStuState extends State<Quadrant>
                 crossAxisCount: 2,
                 childAspectRatio: childAspectRatio,
               ),
-              childrenDelegate:
-                  SliverChildBuilderDelegate((BuildContext context, int index) {
-                List<TodoItem> itemsBuild = items
-                    .where((element) => element.priority == index+1)
-                    .toList();
+              childrenDelegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+                List<TodoItem> itemsBuild = items.where((element) => element.priority == index + 1).toList();
                 return buildListViewItemWidget(index, itemsBuild);
               }, childCount: 4),
             );

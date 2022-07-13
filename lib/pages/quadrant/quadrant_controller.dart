@@ -1,13 +1,14 @@
+import 'package:Tik/networking/rest/list/todo_list_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class DevWordController extends GetxController {
+class QuadrantController extends GetxController {
   var isLoading = true.obs;
   var searchWord = "".obs;
 
   List<Card> _wordWidget = List.empty(growable: true);
 
-  DevWordController(TabController _tabController) {
+  QuadrantController(TabController _tabController) {
     _tabController.addListener(() {
       // https://stackoverflow.com/questions/60252355/tabcontroller-listener-called-multiple-times-how-does-indexischanging-work
       if (!_tabController.indexIsChanging) {
@@ -41,6 +42,10 @@ class DevWordController extends GetxController {
     _wordWidget = cards;
     update();
     return Future.value(cards);
+  }
+
+  void getTodoTasks() {
+    TodoListProvider.getTodos();
   }
 
   void updateWords(String word) async {

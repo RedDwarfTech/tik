@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
 
 import '../../pages/calendar/view/complex_example.dart';
-import '../../pages/dev/dev_word.dart';
 import '../../pages/home/view/home.dart';
+import '../../pages/quadrant/quadrant.dart';
 import '../../pages/settings/settings.dart';
 import 'nav_controller.dart';
 

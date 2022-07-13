@@ -1,6 +1,6 @@
 name: Tik
 description: Tik is a simple GTD app.
-publish_to: "none" # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.quadrant
 version: 0.3.2+5
 
 environment:
