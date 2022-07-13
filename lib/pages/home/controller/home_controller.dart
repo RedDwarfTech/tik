@@ -198,7 +198,9 @@ class HomeController extends GetxController {
                 }
                 TaskProvider.updateTask(element).then((value) => {
                       playDoneAudio(),
-                      TaskProvider.getTasks(element.parent).then((todos) => {buildTaskItems(todos)})
+                      TaskProvider.getTasks(element.parent).then((todos) => {
+                            buildTaskItems(todos),
+                          })
                     });
               },
             )),

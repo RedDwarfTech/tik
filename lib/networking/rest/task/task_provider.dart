@@ -5,13 +5,15 @@ import 'package:wheel/wheel.dart' show RestClient;
 import '../../../models/todo/todo_model.dart';
 
 class TaskProvider {
-  static Future<bool> saveTask(TodoTask todo) async {
+  static Future<TodoTask> saveTask(TodoTask todo) async {
     Map todoParam = todo.toJson();
     var response = await RestClient.postHttp("/tik/task/v1/add", todoParam);
     if (RestClient.respSuccess(response)) {
-      return true;
+      var task = response.data["result"];
+      TodoTask todoTask = TodoTask.fromJson(task);
+      return todoTask;
     } else {
-      return false;
+      throw "save task failed";
     }
   }
 

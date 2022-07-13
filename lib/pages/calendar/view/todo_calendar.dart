@@ -7,12 +7,12 @@ import 'package:table_calendar/table_calendar.dart';
 import '../../../models/todo/todo_model.dart';
 import '../controller/calendar_controller.dart';
 
-class TableComplexExample extends StatefulWidget {
+class TodoCalendar extends StatefulWidget {
   @override
-  _TableComplexExampleState createState() => _TableComplexExampleState();
+  _TodoCalendarState createState() => _TodoCalendarState();
 }
 
-class _TableComplexExampleState extends State<TableComplexExample> {
+class _TodoCalendarState extends State<TodoCalendar> {
   late final PageController _pageController;
   CalendarFormat _calendarFormat = CalendarFormat.month;
   RangeSelectionMode _rangeSelectionMode = RangeSelectionMode.toggledOff;

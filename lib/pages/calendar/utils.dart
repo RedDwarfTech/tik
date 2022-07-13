@@ -1,11 +1,3 @@
-// Copyright 2019 Aleksander Woźniak
-// SPDX-License-Identifier: Apache-2.0
-
-import 'package:get/get.dart';
-
-import 'controller/calendar_controller.dart';
-
-/// Example event class.
 class Event {
   final String title;
 
@@ -14,8 +6,6 @@ class Event {
   @override
   String toString() => title;
 }
-
-final CalendarController calendarController = Get.put(CalendarController());
 
 int getHashCode(DateTime key) {
   return key.day * 1000000 + key.month * 10000 + key.year;

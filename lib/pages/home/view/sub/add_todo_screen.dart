@@ -5,6 +5,7 @@ import '../../../../component/todo_badge.dart';
 import '../../../../models/hero_id_model.dart';
 import '../../../../models/todo/todo_model.dart';
 import '../../../../networking/rest/task/task_provider.dart';
+import '../../../calendar/controller/calendar_controller.dart';
 import '../../controller/home_controller.dart';
 
 class AddTodoScreen extends StatefulWidget {
@@ -35,12 +36,16 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
   @override
   Widget build(BuildContext context) {
     final HomeController homeController = Get.put(HomeController());
+    final CalendarController calendarController = Get.put(CalendarController());
 
-    void handleLocal(bool success, TodoTask todo) {
-      if (success) {
-        TaskProvider.getTasks(todo.parent)
-            .then((value) => {homeController.buildTaskItems(value), Navigator.pop(context)});
-      }
+    void handleLocal(TodoTask todo) {
+      TaskProvider.getTasks(todo.parent).then((value) => {homeController.buildTaskItems(value), Navigator.pop(context)});
+    }
+
+    void handleSavedTask(TodoTask task) {
+      handleLocal(task);
+      DateTime scheduleTime = DateTime.fromMillisecondsSinceEpoch(task.schedule_time);
+      calendarController.putTasks(task, scheduleTime);
     }
 
     return Scaffold(
@@ -123,16 +128,13 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
             onPressed: () {
               if (newTask.isEmpty) {
                 final snackBar = SnackBar(
-                  content: Text(
-                      'Ummm... It seems that you are trying to add an invisible task which is not allowed in this realm.'),
+                  content: Text('Ummm... It seems that you are trying to add an invisible task which is not allowed in this realm.'),
                 );
                 Scaffold.of(context).showSnackBar(snackBar);
               } else {
                 var todo = TodoTask(newTask,
-                    parent: homeController.activeTodoList.id,
-                    schedule_time: DateTime.now().millisecondsSinceEpoch,
-                    priority: 0);
-                TaskProvider.saveTask(todo).then((value) => {handleLocal(value, todo)});
+                    parent: homeController.activeTodoList.id, schedule_time: DateTime.now().millisecondsSinceEpoch, priority: 4);
+                TaskProvider.saveTask(todo).then((value) => {handleSavedTask(value)});
               }
             },
           );

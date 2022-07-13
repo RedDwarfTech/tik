@@ -1,6 +1,5 @@
 import 'dart:collection';
 
-import 'package:Tik/pages/calendar/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:wheel/wheel.dart';
@@ -11,10 +10,9 @@ import '../../../networking/rest/task/task_provider.dart';
 
 class CalendarController extends GetxController {
   DateTime selectedDays = DateTime.now();
-  List<TodoTask> tasks = List.empty(growable: true);
   Map<String, List<TodoTask>> taskMap = new HashMap();
   final ValueNotifier<DateTime> focusedDay = ValueNotifier(DateTime.now());
-  late final ValueNotifier<List<TodoTask>> selectedEvents = ValueNotifier(calendarController.getEventsForDay(focusedDay.value));
+  late final ValueNotifier<List<TodoTask>> selectedEvents = ValueNotifier(getEventsForDay(focusedDay.value));
 
   @override
   void onInit() {
@@ -50,6 +48,17 @@ class CalendarController extends GetxController {
     String dateString = formatter.format(day);
     List<TodoTask> dayTodoTask = taskMap[dateString] ?? [];
     return dayTodoTask;
+  }
+
+  void putTasks(TodoTask task, DateTime day) {
+    final DateFormat formatter = DateFormat('yyyy-MM-dd');
+    String dateString = formatter.format(day);
+    if (taskMap.containsKey(dateString)) {
+      taskMap[dateString]?.add(task);
+    } else {
+      List<TodoTask> newTasks = List.empty(growable: true);
+      taskMap.putIfAbsent(dateString, () => newTasks);
+    }
   }
 
   Map<String, List<TodoTask>> buildHashMap(List<TodoTask> tasks) {
