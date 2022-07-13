@@ -9,8 +9,6 @@ import '../../models/todo/todo_model.dart';
 
 class QuadrantController extends GetxController {
   List<TodoTask> tasks = List.empty(growable: true);
-  late BuildContext context;
-  RxDouble childAspectRatio = 0.0.obs;
 
   @override
   void onInit() {
