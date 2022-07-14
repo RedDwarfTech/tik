@@ -12,6 +12,7 @@ class TodoTask {
   int? complete_time;
   int schedule_time;
   int priority;
+  String? description;
 
   TodoTask(this.name,
       {required this.parent,
@@ -19,8 +20,10 @@ class TodoTask {
       int? id,
       this.complete_time,
       required this.schedule_time,
-      required this.priority})
-      : this.id = id ?? 0;
+      required this.priority,
+      String? description})
+      : this.id = id ?? 0,
+        this.description = description ?? "";
 
   TodoTask copy(Map map,
       {String? name,
@@ -28,13 +31,15 @@ class TodoTask {
       required int id,
       int? parent,
       required int schedule_time,
-      required int priority}) {
+      required int priority,
+      String? description}) {
     return TodoTask(name ?? this.name,
         isCompleted: isCompleted ?? this.isCompleted,
         id: id,
         parent: parent ?? this.parent,
         schedule_time: schedule_time,
-        priority: priority);
+        priority: priority,
+        description: description);
   }
 
   /// A necessary factory constructor for creating a new User instance

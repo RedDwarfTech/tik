@@ -25,6 +25,7 @@ class AddTodoScreen extends StatefulWidget {
 
 class _AddTodoScreenState extends State<AddTodoScreen> {
   late String newTask;
+  late String description;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
@@ -79,6 +80,7 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
               onChanged: (text) {
                 setState(() => newTask = text);
               },
+              maxLines: 2,
               //cursorColor: _color,
               autofocus: true,
               decoration: InputDecoration(
@@ -87,10 +89,25 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
                   hintStyle: TextStyle(
                     color: Colors.black26,
                   )),
-              style: TextStyle(color: Colors.black54, fontWeight: FontWeight.w500, fontSize: 36.0),
+              style: TextStyle(color: Colors.black54, fontWeight: FontWeight.w500, fontSize: 22.0),
             ),
             Container(
               height: 26.0,
+            ),
+            TextField(
+              onChanged: (text) {
+                setState(() => description = text);
+              },
+              maxLines: 3,
+              //cursorColor: _color,
+              autofocus: true,
+              decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: '输入任务描述(可选)',
+                  hintStyle: TextStyle(
+                    color: Colors.black26,
+                  )),
+              style: TextStyle(color: Colors.black54, fontWeight: FontWeight.w500, fontSize: 18.0),
             ),
             Row(
               children: [
@@ -133,7 +150,10 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
                 Scaffold.of(context).showSnackBar(snackBar);
               } else {
                 var todo = TodoTask(newTask,
-                    parent: homeController.activeTodoList.id, schedule_time: DateTime.now().millisecondsSinceEpoch, priority: 4);
+                    parent: homeController.activeTodoList.id,
+                    schedule_time: DateTime.now().millisecondsSinceEpoch,
+                    priority: 4,
+                    description: description);
                 TaskProvider.saveTask(todo).then((value) => {handleSavedTask(value)});
               }
             },
