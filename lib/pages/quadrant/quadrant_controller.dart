@@ -20,10 +20,23 @@ class QuadrantController extends GetxController {
     List<Widget> widgets = new List.empty(growable: true);
     items.forEach((element) {
       var cards = SliverToBoxAdapter(
-          child: Card(
+          child: LongPressDraggable(
+        feedback: Container(
+          height: 50,
+          width: 200,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(color: Colors.blue, borderRadius: BorderRadius.circular(10)),
+          child: Text(
+            element.name,
+            style: TextStyle(color: Colors.white, fontSize: 18),
+          ),
+        ),
         child: CheckboxListTile(
           controlAffinity: ListTileControlAffinity.leading,
-          title: Text(element.name),
+          title: Text(
+            element.name,
+            style: TextStyle(color: Colors.black54, fontWeight: FontWeight.w600, fontSize: 12.0),
+          ),
           value: true,
           onChanged: (bool? value) {},
         ),
