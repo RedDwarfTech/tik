@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,6 +11,44 @@ import 'sub/add_todo_screen.dart';
 class HomePage extends StatelessWidget {
   final HomeController homeController = Get.put(HomeController());
   final ScrollController scrollController = ScrollController();
+
+  Map<int, String> getCategories() {
+    Map<int, String> categories = HashMap<int, String>();
+    categories.putIfAbsent(1, () => "已过期");
+    categories.putIfAbsent(2, () => "待完成");
+    categories.putIfAbsent(3, () => "已完成");
+    return categories;
+  }
+
+  Widget buildTaskCategoriesView(BuildContext context, HomeController controller) {
+    return SingleChildScrollView(
+      child: ListView.builder(
+          scrollDirection: Axis.vertical,
+          shrinkWrap: true,
+          itemBuilder: (BuildContext context, int index) => Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Card(
+                  child: ExpansionTile(
+                    title: Text(getCategories()[index + 1]!),
+                    children: buildTasks(index + 1),
+                  ),
+                ),
+              ),
+          itemCount: getCategories().length),
+    );
+  }
+
+  List<Widget> buildTasks(int index) {
+    if (index == 1) {
+      return homeController.expiredTaskList;
+    } else if (index == 2) {
+      return homeController.newTaskList;
+    } else if (index == 3) {
+      return homeController.completeTaskList;
+    } else {
+      return List.empty(growable: false);
+    }
+  }
 
   Widget _buildTodoView(BuildContext context, HomeController controller) {
     return SingleChildScrollView(
@@ -102,7 +141,8 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _buildBody(BuildContext context, HomeController controller) {
-    return Obx(() => _buildTodoView(context, controller));
+    //return Obx(() => buildTaskCategoriesView(context, controller));
+    return buildTaskCategoriesView(context, controller);
   }
 
   Future<void> addTask() async {
@@ -123,6 +163,7 @@ class HomePage extends StatelessWidget {
             appBar: AppBar(title: Text("${controller.activeTodoList == null ? 'unknown' : controller.activeTodoList.name}")),
             drawer: Drawer(child: ListView(children: homeController.buildTodoListItems())),
             body: _buildBody(context, controller),
+            backgroundColor: Colors.transparent,
             floatingActionButton: FloatingActionButton(
               onPressed: addTask,
               tooltip: 'Increment',
