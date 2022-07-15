@@ -25,8 +25,9 @@ class HomePage extends StatelessWidget {
       child: ListView.builder(
           scrollDirection: Axis.vertical,
           shrinkWrap: true,
+          controller: scrollController,
           itemBuilder: (BuildContext context, int index) => Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                padding: const EdgeInsets.symmetric(horizontal: 6.0),
                 child: Card(
                   child: ExpansionTile(
                     title: Text(getCategories()[index + 1]!),

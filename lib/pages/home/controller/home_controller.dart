@@ -193,6 +193,7 @@ class HomeController extends GetxController {
           scheduleTime,
           style: new TextStyle(color: Colors.blue),
         ),
+        horizontalTitleGap: -5,
         leading: Theme(
             data: ThemeData(
               primarySwatch: Colors.blue,
