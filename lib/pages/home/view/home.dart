@@ -17,15 +17,28 @@ class HomePage extends StatelessWidget {
       ExpansionPanelList(
         expansionCallback: (int index, bool isExpanded) {
           if (index == 0) {
+            var expand = controller.expiredTaskExpanded.value;
+            controller.expiredTaskExpanded(!expand);
+          }
+          if (index == 1) {
             var expand = controller.newTaskExpanded.value;
             controller.newTaskExpanded(!expand);
           }
-          if (index == 1) {
+          if (index == 2) {
             var expand = controller.completedTaskExpanded.value;
             controller.completedTaskExpanded(!expand);
           }
         },
         children: [
+          ExpansionPanel(
+              headerBuilder: (context, isExpanded) {
+                return ListTile(
+                  title: Text("已过期"),
+                );
+              },
+              body: buildExpiredTasks(context, controller),
+              isExpanded: controller.expiredTaskExpanded.value,
+              canTapOnHeader: true),
           ExpansionPanel(
               headerBuilder: (context, isExpanded) {
                 return ListTile(
@@ -47,6 +60,19 @@ class HomePage extends StatelessWidget {
         ],
       )
     ]));
+  }
+
+  Widget buildExpiredTasks(BuildContext context, HomeController controller) {
+    return ListView.builder(
+      scrollDirection: Axis.vertical,
+      shrinkWrap: true,
+      itemCount: controller.expiredTaskList.obs.length,
+      controller: scrollController,
+      itemBuilder: (BuildContext context, int index) {
+        Widget widget = controller.expiredTaskList.obs[index];
+        return widget;
+      },
+    );
   }
 
   Widget buildNewTasks(BuildContext context, HomeController controller) {

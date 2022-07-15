@@ -5,6 +5,7 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
+import 'package:wheel/wheel.dart';
 
 import '../../../db/db_provider.dart';
 import '../../../includes.dart';
@@ -16,8 +17,10 @@ import '../view/sub/edit_task_screen.dart';
 class HomeController extends GetxController {
   List<Widget> newTaskList = List.empty(growable: true);
   List<Widget> completeTaskList = List.empty(growable: true);
+  List<Widget> expiredTaskList = List.empty(growable: true);
   List<TodoTask> tasks = List.empty(growable: true);
   var newTaskExpanded = true.obs;
+  var expiredTaskExpanded = false.obs;
   var completedTaskExpanded = false.obs;
   var activeTodoList = null;
   var taskPriority = 0.obs;
@@ -85,17 +88,25 @@ class HomeController extends GetxController {
   List<Widget> buildTaskItems(List<TodoTask> tasks) {
     List<Widget> newTasks = new List.empty(growable: true);
     List<Widget> completedTasks = new List.empty(growable: true);
-    List<TodoTask> newElements = tasks.where((element) => element.isCompleted != 1).toList();
+    List<Widget> expiredTasks = new List.empty(growable: true);
+    List<TodoTask> newElements =
+        tasks.where((element) => element.isCompleted != 1 && DateTimeUtils.isToday(element.schedule_time)).toList();
     newElements.sort((a, b) => b.schedule_time.compareTo(a.schedule_time));
     List<TodoTask> completeElements = tasks.where((element) => element.isCompleted == 1).toList();
+    List<TodoTask> expiredElements =
+        tasks.where((element) => element.isCompleted != 1 && !DateTimeUtils.isToday(element.schedule_time)).toList();
     newElements.forEach((element) {
-      buildSingleTask(element, newTasks, completedTasks);
+      buildSingleTask(element, newTasks);
     });
     completeElements.forEach((element) {
-      buildSingleTask(element, newTasks, completedTasks);
+      buildSingleTask(element, completedTasks);
+    });
+    expiredElements.forEach((element) {
+      buildSingleTask(element, expiredTasks);
     });
     newTaskList = newTasks;
     completeTaskList = completedTasks;
+    expiredTaskList = expiredTasks;
     update();
     return newTasks;
   }
@@ -164,7 +175,7 @@ class HomeController extends GetxController {
     audioPlayer.resume();
   }
 
-  void buildSingleTask(TodoTask element, List<Widget> newTaskList, List<Widget> completeTaskList) {
+  void buildSingleTask(TodoTask element, List<Widget> taskList) {
     var scheduleTime = getTaskTime(element);
     var card = Slidable(
       actionPane: SlidableDrawerActionPane(),
@@ -219,11 +230,7 @@ class HomeController extends GetxController {
         },
       ),
     );
-    if (element.isCompleted == 1) {
-      completeTaskList.add(card);
-    } else {
-      newTaskList.add(card);
-    }
+    taskList.add(card);
   }
 
   void updateTask(TodoTask todo) {
