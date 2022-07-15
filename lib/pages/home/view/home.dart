@@ -81,10 +81,10 @@ class HomePage extends StatelessWidget {
 
   Future<void> addTask() async {
     HeroId heroId = new HeroId(progressId: '121', titleId: '232', remainingTaskId: '4242', codePointId: '2424');
-    Get.to(AddTodoScreen(
-      taskId: '1',
-      heroIds: heroId,
-    ));
+    Get.to(() => AddTodoScreen(
+          taskId: '1',
+          heroIds: heroId,
+        ));
   }
 
   @override
@@ -94,8 +94,7 @@ class HomePage extends StatelessWidget {
         builder: (controller) {
           return SafeArea(
               child: Scaffold(
-            appBar: AppBar(
-                title: Text("${controller.activeTodoList == null ? 'unknown' : controller.activeTodoList.name}")),
+            appBar: AppBar(title: Text("${controller.activeTodoList == null ? 'unknown' : controller.activeTodoList.name}")),
             drawer: Drawer(child: ListView(children: homeController.buildTodoListItems())),
             body: _buildBody(context, controller),
             floatingActionButton: FloatingActionButton(

@@ -25,7 +25,7 @@ class AddTodoScreen extends StatefulWidget {
 
 class _AddTodoScreenState extends State<AddTodoScreen> {
   late String newTask;
-  late String description;
+  String description = "";
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
@@ -153,7 +153,7 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
                     parent: homeController.activeTodoList.id,
                     schedule_time: DateTime.now().millisecondsSinceEpoch,
                     priority: 4,
-                    description: description);
+                    description: description ?? "");
                 TaskProvider.saveTask(todo).then((value) => {handleSavedTask(value)});
               }
             },
