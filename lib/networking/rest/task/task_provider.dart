@@ -87,6 +87,9 @@ class TaskProvider {
     params.putIfAbsent("id", () => todo.id);
     params.putIfAbsent("name", () => todo.name);
     params.putIfAbsent("priority", () => todo.priority);
+    if (todo.description != null) {
+      params.putIfAbsent("description", () => todo.description ?? "");
+    }
     var response = await RestClient.patch("/tik/task/v1/update", params);
     if (RestClient.respSuccess(response)) {
       var updateResult = response.data["result"];

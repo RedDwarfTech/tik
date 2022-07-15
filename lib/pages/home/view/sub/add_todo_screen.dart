@@ -153,7 +153,7 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
                     parent: homeController.activeTodoList.id,
                     schedule_time: DateTime.now().millisecondsSinceEpoch,
                     priority: 4,
-                    description: description ?? "");
+                    description: description);
                 TaskProvider.saveTask(todo).then((value) => {handleSavedTask(value)});
               }
             },

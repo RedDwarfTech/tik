@@ -11,12 +11,14 @@ import '../../controller/home_controller.dart';
 class EditTaskScreen extends StatefulWidget {
   final int taskId;
   final String taskName;
+  final String description;
   final Color color;
   final IconData icon;
 
   EditTaskScreen({
     required this.taskId,
     required this.taskName,
+    required this.description,
     required this.color,
     required this.icon,
   });
@@ -30,6 +32,7 @@ class EditTaskScreen extends StatefulWidget {
 class _EditCardScreenState extends State<EditTaskScreen> {
   late String taskName;
   late Color taskColor;
+  late String description;
   late IconData taskIcon;
   late int taskId;
 
@@ -44,6 +47,7 @@ class _EditCardScreenState extends State<EditTaskScreen> {
     taskColor = widget.color;
     taskIcon = widget.icon;
     taskId = widget.taskId;
+    description = widget.description;
   }
 
   @override
@@ -76,7 +80,7 @@ class _EditCardScreenState extends State<EditTaskScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Category will help you group related task!',
+              '调整任务内容',
               style: TextStyle(
                 color: Colors.black38,
                 fontWeight: FontWeight.w600,
@@ -93,6 +97,7 @@ class _EditCardScreenState extends State<EditTaskScreen> {
                   () => taskName = text,
                 );
               },
+              maxLines: 2,
               cursorColor: taskColor,
               autofocus: true,
               decoration: InputDecoration(
@@ -101,10 +106,28 @@ class _EditCardScreenState extends State<EditTaskScreen> {
                   hintStyle: TextStyle(
                     color: Colors.black26,
                   )),
-              style: TextStyle(color: Colors.black54, fontWeight: FontWeight.w500, fontSize: 36.0),
+              style: TextStyle(color: Colors.black54, fontWeight: FontWeight.w500, fontSize: 22.0),
             ),
             Container(
               height: 26.0,
+            ),
+            TextFormField(
+              initialValue: description,
+              onChanged: (text) {
+                setState(
+                  () => description = text,
+                );
+              },
+              maxLines: 3,
+              cursorColor: taskColor,
+              autofocus: true,
+              decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: '任务描述',
+                  hintStyle: TextStyle(
+                    color: Colors.black26,
+                  )),
+              style: TextStyle(color: Colors.black54, fontWeight: FontWeight.w500, fontSize: 18.0),
             ),
             Row(
               children: [
@@ -148,8 +171,7 @@ class _EditCardScreenState extends State<EditTaskScreen> {
             onPressed: () {
               if (taskName.isEmpty) {
                 final snackBar = SnackBar(
-                  content: Text(
-                      'Ummm... It seems that you are trying to add an invisible task which is not allowed in this realm.'),
+                  content: Text('Ummm... It seems that you are trying to add an invisible task which is not allowed in this realm.'),
                   backgroundColor: taskColor,
                 );
                 Scaffold.of(context).showSnackBar(snackBar);
@@ -158,9 +180,9 @@ class _EditCardScreenState extends State<EditTaskScreen> {
                     parent: 0,
                     id: taskId,
                     schedule_time: DateTime.now().millisecondsSinceEpoch,
-                    priority: homeController.taskPriority.value);
-                TaskProvider.updateTaskProperties(todo)
-                    .then((value) => {homeController.updateTask(value), Navigator.pop(context)});
+                    priority: homeController.taskPriority.value,
+                    description: description);
+                TaskProvider.updateTaskProperties(todo).then((value) => {homeController.updateTask(value), Navigator.pop(context)});
               }
             },
           );

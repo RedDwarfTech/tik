@@ -214,6 +214,7 @@ class HomeController extends GetxController {
             color: Colors.green,
             icon: EvaIcons.edit,
             taskName: element.name,
+            description: element.description ?? "",
           ));
         },
       ),
