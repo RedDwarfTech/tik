@@ -1,6 +1,8 @@
+import 'package:Tik/networking/rest/task/task_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../models/todo/todo_model.dart';
 import 'quadrant_controller.dart';
 
 class Quadrant extends StatelessWidget {
@@ -25,7 +27,14 @@ class Quadrant extends StatelessWidget {
               childAspectRatio: childAspectRatio,
             ),
             childrenDelegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-              return controller.buildListViewItemWidget(index, controller.tasks.where((element) => element.priority == index + 1).toList());
+              return DragTarget(onAccept: (data) {
+                TodoTask task = data as TodoTask;
+                task.priority = index + 1;
+                TaskProvider.updateTaskProperties(task).then((value) => {controller.getTodoTasks()});
+              }, builder: (context, candidateData, rejectedData) {
+                return controller.buildListViewItemWidget(
+                    index, controller.tasks.where((element) => element.priority == index + 1).toList());
+              });
             }, childCount: 4),
           )));
         });

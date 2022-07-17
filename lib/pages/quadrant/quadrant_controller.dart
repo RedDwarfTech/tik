@@ -21,6 +21,7 @@ class QuadrantController extends GetxController {
     items.forEach((element) {
       var cards = SliverToBoxAdapter(
           child: LongPressDraggable(
+        data: element,
         feedback: Container(
           height: 50,
           width: 200,
@@ -55,11 +56,10 @@ class QuadrantController extends GetxController {
 
   Widget buildListViewItemWidget(int index, List<TodoTask> items) {
     return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10.0))),
-      child: CustomScrollView(
-        slivers: buildBoardItems(items),
-      ),
-    );
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10.0))),
+        child: CustomScrollView(
+          slivers: buildBoardItems(items),
+        ));
   }
 
   Map<int, String> getBoards() {
@@ -72,6 +72,9 @@ class QuadrantController extends GetxController {
   }
 
   void getTodoTasks() {
+    if (tasks.isNotEmpty) {
+      tasks.clear();
+    }
     int monthStartMilliseconds = DateTimeUtils.startOfMonthMilliseconds(DateTime.now());
     int monthEndMilliseconds = DateTimeUtils.endOfMonthMilliseconds(DateTime.now());
     TaskProvider.getTasksByRangeDate(monthStartMilliseconds, monthEndMilliseconds).then((value) => {tasks.addAll(value), update()});
