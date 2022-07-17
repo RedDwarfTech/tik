@@ -31,14 +31,21 @@ class QuadrantController extends GetxController {
             style: TextStyle(color: Colors.white, fontSize: 18),
           ),
         ),
-        child: CheckboxListTile(
-          controlAffinity: ListTileControlAffinity.leading,
-          title: Text(
-            element.name,
-            style: TextStyle(color: Colors.black54, fontWeight: FontWeight.w600, fontSize: 12.0),
-          ),
-          value: true,
-          onChanged: (bool? value) {},
+        child: ListTile(
+          contentPadding: EdgeInsets.all(0),
+          visualDensity: const VisualDensity(vertical: -4),
+          horizontalTitleGap: -6,
+          leading: Theme(
+              data: ThemeData(),
+              child: Checkbox(
+                value: element.isCompleted == 1 ? true : false,
+                onChanged: (bool? value) {},
+              )),
+          title: Text(element.name,
+              style: element.isCompleted == 1 ? TextStyle(color: Colors.grey, fontSize: 16) : TextStyle(color: Colors.black, fontSize: 14),
+              overflow: TextOverflow.ellipsis),
+          selected: element.isCompleted == 1 ? true : false,
+          onTap: () {},
         ),
       ));
       widgets.add(cards);
@@ -48,7 +55,6 @@ class QuadrantController extends GetxController {
 
   Widget buildListViewItemWidget(int index, List<TodoTask> items) {
     return Card(
-      color: Colors.cyan[100 * (index % 9)],
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10.0))),
       child: CustomScrollView(
         slivers: buildBoardItems(items),
