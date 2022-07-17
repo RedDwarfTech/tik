@@ -210,6 +210,8 @@ class _CalendarHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final headerText = DateFormat.yMMM().format(focusedDay);
+    double screenWidth = MediaQuery.of(context).size.width;
+    double dateWidth = screenWidth * 0.34;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -217,7 +219,7 @@ class _CalendarHeader extends StatelessWidget {
         children: [
           const SizedBox(width: 16.0),
           SizedBox(
-            width: 120.0,
+            width: dateWidth,
             child: Text(
               headerText,
               style: TextStyle(fontSize: 26.0),
