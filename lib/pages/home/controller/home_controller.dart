@@ -221,13 +221,13 @@ class HomeController extends GetxController {
             overflow: TextOverflow.ellipsis),
         selected: element.isCompleted == 1 ? true : false,
         onTap: () {
-          Get.to(EditTaskScreen(
-            taskId: element.id,
-            color: Colors.green,
-            icon: EvaIcons.edit,
-            taskName: element.name,
-            description: element.description ?? "",
-          ));
+          Get.to(() => EditTaskScreen(
+                taskId: element.id,
+                color: Colors.green,
+                icon: EvaIcons.edit,
+                taskName: element.name,
+                description: element.description ?? "",
+              ));
         },
       ),
     );
@@ -238,6 +238,7 @@ class HomeController extends GetxController {
     tasks.forEach((element) {
       if (element.id == todo.id) {
         element.name = todo.name;
+        element.description = todo.description;
         buildTaskItems(tasks);
       }
     });

@@ -51,57 +51,6 @@ class HomePage extends StatelessWidget {
     }
   }
 
-  Widget _buildTodoView(BuildContext context, HomeController controller) {
-    return SingleChildScrollView(
-        child: Column(children: <Widget>[
-      ExpansionPanelList(
-        expansionCallback: (int index, bool isExpanded) {
-          if (index == 0) {
-            var expand = controller.expiredTaskExpanded.value;
-            controller.expiredTaskExpanded(!expand);
-          }
-          if (index == 1) {
-            var expand = controller.newTaskExpanded.value;
-            controller.newTaskExpanded(!expand);
-          }
-          if (index == 2) {
-            var expand = controller.completedTaskExpanded.value;
-            controller.completedTaskExpanded(!expand);
-          }
-        },
-        children: [
-          ExpansionPanel(
-              headerBuilder: (context, isExpanded) {
-                return ListTile(
-                  title: Text("已过期"),
-                );
-              },
-              body: buildExpiredTasks(context, controller),
-              isExpanded: controller.expiredTaskExpanded.value,
-              canTapOnHeader: true),
-          ExpansionPanel(
-              headerBuilder: (context, isExpanded) {
-                return ListTile(
-                  title: Text("待完成"),
-                );
-              },
-              body: buildNewTasks(context, controller),
-              isExpanded: controller.newTaskExpanded.value,
-              canTapOnHeader: true),
-          ExpansionPanel(
-              headerBuilder: (context, isExpanded) {
-                return ListTile(
-                  title: Text("已完成"),
-                );
-              },
-              isExpanded: controller.completedTaskExpanded.value,
-              canTapOnHeader: true,
-              body: buildCompletedTasks(context, controller))
-        ],
-      )
-    ]));
-  }
-
   Widget buildExpiredTasks(BuildContext context, HomeController controller) {
     return ListView.builder(
       scrollDirection: Axis.vertical,

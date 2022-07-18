@@ -16,8 +16,34 @@ class QuadrantController extends GetxController {
     super.onInit();
   }
 
-  List<Widget> buildBoardItems(List<TodoTask> items) {
+  Widget buildTitle(int index) {
+    String? titleName = getBoards()[index];
+    if (index == 0) {
+      var title = SliverToBoxAdapter(
+        child: Text(titleName ?? "", style: TextStyle(color: Colors.redAccent)),
+      );
+      return title;
+    } else if (index == 1) {
+      var title = SliverToBoxAdapter(
+        child: Text(titleName ?? "", style: TextStyle(color: Colors.amber)),
+      );
+      return title;
+    } else if (index == 2) {
+      var title = SliverToBoxAdapter(
+        child: Text(titleName ?? "", style: TextStyle(color: Colors.blue)),
+      );
+      return title;
+    } else {
+      var title = SliverToBoxAdapter(
+        child: Text(titleName ?? "", style: TextStyle(color: Colors.green)),
+      );
+      return title;
+    }
+  }
+
+  List<Widget> buildBoardItems(int index, List<TodoTask> items) {
     List<Widget> widgets = new List.empty(growable: true);
+    widgets.add(buildTitle(index));
     items.forEach((element) {
       var cards = SliverToBoxAdapter(
           child: LongPressDraggable(
@@ -58,7 +84,7 @@ class QuadrantController extends GetxController {
     return Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10.0))),
         child: CustomScrollView(
-          slivers: buildBoardItems(items),
+          slivers: buildBoardItems(index, items),
         ));
   }
 
