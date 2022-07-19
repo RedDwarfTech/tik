@@ -16,7 +16,7 @@ class Quadrant extends StatelessWidget {
         builder: (controller) {
           return Scaffold(body: SafeArea(child: LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
-              var childAspectRatio = itemWidth / (constraints.maxHeight / 2 - 20);
+              var childAspectRatio = itemWidth / ((constraints.maxHeight - 56) / 2);
               return GridView.custom(
                 semanticChildCount: 2,
                 cacheExtent: 4,
