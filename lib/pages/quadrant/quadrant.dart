@@ -9,7 +9,6 @@ class Quadrant extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var itemWidth = (MediaQuery.of(context).size.width - 30) / 2;
-    var itemHeight = MediaQuery.of(context).size.height;
 
     return GetBuilder<QuadrantController>(
         init: QuadrantController(),

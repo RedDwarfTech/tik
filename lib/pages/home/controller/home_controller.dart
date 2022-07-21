@@ -169,10 +169,12 @@ class HomeController extends GetxController {
     }
   }
 
-  Future<void> playDoneAudio() async {
-    AudioPlayer audioPlayer = new AudioPlayer();
-    audioPlayer.setSourceAsset("audio/done.mp3");
-    audioPlayer.resume();
+  Future<void> playDoneAudio(TodoTask todoTask) async {
+    if (todoTask.isCompleted == 1) {
+      AudioPlayer audioPlayer = new AudioPlayer();
+      audioPlayer.setSourceAsset("audio/done.mp3");
+      audioPlayer.resume();
+    }
   }
 
   void buildSingleTask(TodoTask element, List<Widget> taskList) {
@@ -209,7 +211,7 @@ class HomeController extends GetxController {
                   element.isCompleted = 0;
                 }
                 TaskProvider.updateTask(element).then((value) => {
-                      playDoneAudio(),
+                      playDoneAudio(element),
                       TaskProvider.getTasks(element.parent).then((todos) => {
                             buildTaskItems(todos),
                           })
