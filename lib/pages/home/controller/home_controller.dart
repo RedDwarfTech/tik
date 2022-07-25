@@ -25,6 +25,9 @@ class HomeController extends GetxController {
   var activeTodoList = null;
   var taskPriority = 0.obs;
 
+  // to do list
+  var todoListName = "".obs;
+
   List<TodoList> todoLists = List.empty(growable: true);
   List<Widget> todoListWidgets = List.empty(growable: true);
   final CalendarController calendarController = Get.put(CalendarController());
@@ -59,12 +62,16 @@ class HomeController extends GetxController {
         onPressed: () {
           Get.dialog(AlertDialog(
               content: Column(children: [
-            Text("name:"),
+            TextField(
+              onChanged: (text) {
+                todoListName.value = text;
+              },
+            ),
             ElevatedButton(
               child: Text('添加'),
               onPressed: () => {
-                TodoListProvider.saveTodo(new TodoList("test", id: 1, node_type: 1, parent_id: 0, color: 0, is_default: 0))
-                    .then((value) => {initTodoList()})
+                TodoListProvider.saveTodo(new TodoList(todoListName.value, id: 1, node_type: 1, parent_id: 0, color: 0, is_default: 0))
+                    .then((value) => {initTodoList(), Get.back(closeOverlays: false)})
               },
               // ** result: returns this value up the call stack **
             ),
