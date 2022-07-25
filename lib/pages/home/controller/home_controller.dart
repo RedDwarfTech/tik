@@ -63,9 +63,20 @@ class HomeController extends GetxController {
           Get.dialog(AlertDialog(
               content: Column(children: [
             TextField(
+              decoration: InputDecoration(hintText: "输入清单名称"),
               onChanged: (text) {
                 todoListName.value = text;
               },
+            ),
+            Card(
+              child: Column(
+                children: [
+                  ListTile(
+                    title: Text('文件夹'),
+                    trailing: Icon(Icons.keyboard_arrow_right),
+                  )
+                ],
+              ),
             ),
             ElevatedButton(
               child: Text('添加'),
