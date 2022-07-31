@@ -40,11 +40,11 @@ class UserCenter extends StatelessWidget {
                                     bool isLoggedIn = await Auth.isLoggedIn();
                                     if (isLoggedIn) {
                                       var user = await Auth.currentUser();
-                                      Get.to(Profile(user: user,));
+                                      Get.to(Profile(
+                                        user: user,
+                                      ));
                                     } else {
-                                      List<RegionFlag> regions = await CommonUtils.getRegions();
-                                      final inputController = TextEditingController();
-                                      Get.to(Login(regions: regions,inputController: inputController));
+                                      Get.to(Login());
                                     }
                                   },
                                 )))),

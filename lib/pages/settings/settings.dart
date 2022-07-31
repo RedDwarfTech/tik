@@ -64,12 +64,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                   user: user,
                                 ));
                               } else {
-                                List<RegionFlag> regions = await CommonUtils.getRegions();
-                                final inputController = TextEditingController();
-                                Get.to(Login(
-                                  regions: regions,
-                                  inputController: inputController,
-                                ));
+                                Get.to(Login());
                               }
                             },
                           )))),

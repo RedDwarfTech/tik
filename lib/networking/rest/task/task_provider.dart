@@ -1,6 +1,6 @@
 import 'dart:collection';
 
-import 'package:wheel/wheel.dart' show RestClient;
+import 'package:wheel/wheel.dart' show DateTimeUtils, RestClient;
 
 import '../../../models/todo/todo_model.dart';
 
@@ -41,6 +41,30 @@ class TaskProvider {
     params.putIfAbsent("start_time", () => startTime);
     params.putIfAbsent("end_time", () => endTime);
     params.putIfAbsent("name", () => "parent");
+    var response = await RestClient.get("/tik/task/v1/list", queryParameters: params);
+    if (RestClient.respSuccess(response)) {
+      var todos = response.data["result"];
+      List<TodoTask> todoList = List.empty(growable: true);
+      todos.forEach((element) {
+        TodoTask todo = TodoTask.fromJson(element);
+        todoList.add(todo);
+      });
+      todoList.sort((a, b) => a.isCompleted.compareTo(b.isCompleted));
+      List<TodoTask> expiredTasks = await getExpiredTasks();
+      if (expiredTasks.isNotEmpty) {
+        todoList.addAll(expiredTasks);
+      }
+      return todoList;
+    } else {
+      return new List.empty();
+    }
+  }
+
+  static Future<List<TodoTask>> getExpiredTasks() async {
+    int monthStartMilliseconds = DateTimeUtils.startOfMonthMilliseconds(DateTime.now());
+    Map<String, Object> params = new HashMap();
+    params.putIfAbsent("is_complete", () => 0);
+    params.putIfAbsent("end_time", () => monthStartMilliseconds);
     var response = await RestClient.get("/tik/task/v1/list", queryParameters: params);
     if (RestClient.respSuccess(response)) {
       var todos = response.data["result"];

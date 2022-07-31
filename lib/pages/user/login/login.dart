@@ -12,12 +12,12 @@ import 'login_controller.dart';
 import 'login_password.dart';
 
 class Login extends StatelessWidget {
-  const Login({Key? key, required this.regions, this.inputController}) : super(key: key);
-  final List<RegionFlag> regions;
-  final inputController;
+  const Login({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final inputController = TextEditingController();
+
     return GetBuilder<LoginController>(
         init: LoginController(),
         builder: (controller) {
@@ -64,6 +64,7 @@ class Login extends StatelessWidget {
                                   child: PhoneInput(
                                     selectedRegion: controller.getDefaultRegionFlag,
                                     onPrefixTap: () async {
+                                      List<RegionFlag> regions = await CommonUtils.getRegions();
                                       final RegionFlag region = await Navigator.push(
                                         context,
                                         MaterialPageRoute(builder: (context) {
